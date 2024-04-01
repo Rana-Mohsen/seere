@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 const kPrimaryBackGroundColor = Color(0xFFEDF2FF);
 
-BoxDecoration boxDecoration() {
+BoxDecoration boxDecoration({double radius = 8}) {
   return BoxDecoration(
     color: Colors.white,
-    borderRadius: BorderRadius.circular(8),
+    borderRadius: BorderRadius.circular(radius),
     boxShadow: [
       BoxShadow(
         color: Colors.grey.withOpacity(0.5),
