@@ -20,7 +20,7 @@ class _HomeContainerState extends State<HomeContainer> {
   Widget build(BuildContext context) {
     return Container(
         decoration: boxDecoration(),
-        height: 18.h,
+        height: 19.h,
         width: 43.w,
         child: Column(
           children: [
