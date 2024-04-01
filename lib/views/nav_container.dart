@@ -3,15 +3,15 @@ import 'package:seere/views/app_center_view.dart';
 import 'package:seere/views/home_view.dart';
 import 'package:seere/views/my_info_view.dart';
 
-class HomeContainer extends StatefulWidget {
-  const HomeContainer({
+class NavContainer extends StatefulWidget {
+  const NavContainer({
     super.key,
   });
   @override
-  State<HomeContainer> createState() => _HomeContainerState();
+  State<NavContainer> createState() => _NavContainerState();
 }
 
-class _HomeContainerState extends State<HomeContainer> {
+class _NavContainerState extends State<NavContainer> {
   int currentIndex = 0;
   List<Widget> pages = [
     const HomeView(),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seere/constants.dart';
-import 'package:seere/views/home_container.dart';
+import 'package:seere/views/nav_container.dart';
 import 'package:sizer/sizer.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(scaffoldBackgroundColor: kPrimaryBackGroundColor),
-        home: const HomeContainer(),
+        home: const NavContainer(),
       );
     });
   }

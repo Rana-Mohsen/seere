@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seere/components/custom_button.dart';
+import 'package:seere/components/home_container.dart';
+import 'package:seere/constants.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeView extends StatelessWidget {
@@ -18,8 +20,8 @@ class HomeView extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
             child: CustomButton(
                 title: "Activate Paried Device", color: Color(0xff2F66F6)),
           ),
@@ -36,18 +38,7 @@ class HomeView extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 0,
-                        blurRadius: 4,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
+                  decoration: boxDecoration(),
                   child: Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -80,7 +71,40 @@ class HomeView extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Driving data",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 3.h,
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      HomeContainer(
+                        data: "50",
+                        text1: "L/100Km",
+                        text2: "Current estimated fuel consumption",
+                        text3: "Real-time calculated according to OBD data",
+                      ),
+                      HomeContainer(
+                        data: "50",
+                        text1: "L/100Km",
+                        text2: "Current estimated fuel consumption",
+                        text3: "Real-time calculated according to OBD data",
+                      ),
+                    ]),
               ],
             ),
           )
