@@ -89,7 +89,7 @@ class HomeView extends StatelessWidget {
                 SizedBox(
                   height: 3.h,
                 ),
-                Row(
+                const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       HomeContainer(
@@ -105,6 +105,29 @@ class HomeView extends StatelessWidget {
                         text3: "Real-time calculated according to OBD data",
                       ),
                     ]),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Trip data",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Container(
+                  height: 15.h,
+                  width: double.maxFinite,
+                  decoration: boxDecoration(),
+                  child: Image.asset("assets/images/trip_data.png"),
+                )
               ],
             ),
           )
