@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../views/connect_device_view.dart';
+
 class CustomButton extends StatelessWidget {
   const CustomButton({super.key, required this.title, required this.color});
   final String title;
@@ -11,7 +13,10 @@ class CustomButton extends StatelessWidget {
       height: 5.h,
       width: 58.w,
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ConnectDeviceView()));
+          },
           style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll(color),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
