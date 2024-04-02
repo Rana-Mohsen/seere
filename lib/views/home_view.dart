@@ -23,7 +23,7 @@ class HomeView extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: CustomButton(
-                title: "Activate Paried Device", color: Color(0xff2F66F6)),
+                title: "Activate Paried Device", color: kPrimaryBlueColor),
           ),
           SizedBox(
             height: 20.h,

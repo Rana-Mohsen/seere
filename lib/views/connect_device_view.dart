@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../components/custon_choice_chip.dart';
+
 class ConnectDeviceView extends StatefulWidget {
   const ConnectDeviceView({super.key});
 
@@ -13,6 +15,13 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text("Connectivity")),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            CustomChoiceChip(),
+          ],
+        ),
       ),
     );
   }
