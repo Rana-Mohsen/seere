@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seere/views/connaect_device/cubit/connect_device_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 import '../constants.dart';
@@ -14,9 +16,9 @@ class CustomChoiceChip extends StatefulWidget {
 
 class _CustomButtonState extends State<CustomChoiceChip> {
   Map<String, bool> enabled = {"Bluetooth": true, "WiFi": false};
-  int _sel = 0;
   @override
   Widget build(BuildContext context) {
+    //String name = BlocProvider.of<ConnectDeviceCubit>(context).name;
     return Row(
       children: [
         _button(
@@ -24,6 +26,9 @@ class _CustomButtonState extends State<CustomChoiceChip> {
             onPressed: () {
               enabled['WiFi'] = false;
               enabled['Bluetooth'] = true;
+              BlocProvider.of<ConnectDeviceCubit>(context).name = "Bluetooth";
+              BlocProvider.of<ConnectDeviceCubit>(context).changeState();
+
               setState(() {});
             }),
         _button(
@@ -31,6 +36,9 @@ class _CustomButtonState extends State<CustomChoiceChip> {
             onPressed: () {
               enabled['WiFi'] = true;
               enabled['Bluetooth'] = false;
+              BlocProvider.of<ConnectDeviceCubit>(context).name = "WiFi";
+              BlocProvider.of<ConnectDeviceCubit>(context).changeState();
+
               setState(() {});
             })
       ],
