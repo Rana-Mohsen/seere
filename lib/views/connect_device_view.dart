@@ -17,10 +17,13 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
         title: const Center(child: Text("Connectivity")),
       ),
       body: Center(
-        child: Column(
-          children: [
-            CustomChoiceChip(),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              CustomChoiceChip(),
+            ],
+          ),
         ),
       ),
     );
