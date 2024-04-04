@@ -20,13 +20,12 @@ class AppCenterView extends StatelessWidget {
       appBar: AppBar(
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
-        title: Center(
-          child: Text(
-            "Application Center",
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 15.sp,
-            ),
+        centerTitle: true,
+        title: Text(
+          "Application Center",
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 15.sp,
           ),
         ),
       ),

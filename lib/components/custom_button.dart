@@ -4,22 +4,19 @@ import 'package:sizer/sizer.dart';
 import '../views/connaect_device/connect_device_view.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.title, required this.color, this.width = 58});
+  const CustomButton(
+      {super.key, required this.onPressed,required this.title, required this.color, this.width = 58});
   final String title;
   final Color color;
   final int width;
+  final Function()? onPressed;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 5.h,
       width: width.w,
       child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const ConnectDeviceView()));
-          },
+          onPressed: onPressed,
           style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll(color),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(

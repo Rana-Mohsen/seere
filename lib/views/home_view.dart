@@ -6,6 +6,8 @@ import 'package:seere/constants.dart';
 import 'package:seere/views/connaect_device/cubit/connect_device_cubit.dart';
 import 'package:sizer/sizer.dart';
 
+import 'connaect_device/connect_device_view.dart';
+
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
@@ -22,10 +24,19 @@ class HomeView extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(8.0),
             child: CustomButton(
-                title: "Activate Paried Device", color: kPrimaryBlueColor),
+                onPressed: () {
+                  //BlocProvider.of<ConnectDeviceCubit>(context).changeState();
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ConnectDeviceView()));
+                },
+                title: "Activate Paried Device",
+                color: kPrimaryBlueColor),
           ),
           SizedBox(
             height: 20.h,

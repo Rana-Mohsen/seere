@@ -15,7 +15,6 @@ class CustomChoiceChip extends StatefulWidget {
 }
 
 class _CustomButtonState extends State<CustomChoiceChip> {
-  Map<String, bool> enabled = {"Bluetooth": true, "WiFi": false};
   @override
   Widget build(BuildContext context) {
     //String name = BlocProvider.of<ConnectDeviceCubit>(context).name;
@@ -24,8 +23,8 @@ class _CustomButtonState extends State<CustomChoiceChip> {
         _button(
             name: "Bluetooth",
             onPressed: () {
-              enabled['WiFi'] = false;
-              enabled['Bluetooth'] = true;
+              BlocProvider.of<ConnectDeviceCubit>(context).enabled['WiFi'] = false;
+              BlocProvider.of<ConnectDeviceCubit>(context).enabled['Bluetooth'] = true;
               BlocProvider.of<ConnectDeviceCubit>(context).name = "Bluetooth";
               BlocProvider.of<ConnectDeviceCubit>(context).changeState();
 
@@ -34,8 +33,8 @@ class _CustomButtonState extends State<CustomChoiceChip> {
         _button(
             name: "WiFi",
             onPressed: () {
-              enabled['WiFi'] = true;
-              enabled['Bluetooth'] = false;
+              BlocProvider.of<ConnectDeviceCubit>(context).enabled['WiFi'] = true;
+              BlocProvider.of<ConnectDeviceCubit>(context).enabled['Bluetooth'] = false;
               BlocProvider.of<ConnectDeviceCubit>(context).name = "WiFi";
               BlocProvider.of<ConnectDeviceCubit>(context).changeState();
 
@@ -49,15 +48,15 @@ class _CustomButtonState extends State<CustomChoiceChip> {
     return Expanded(
       child: TextButton(
         onPressed: onPressed,
-        child: Text(
-          name,
-        ),
         style: TextButton.styleFrom(
             backgroundColor:
-                (enabled[name] == true ? Color(0xff618BF8) : kPrimaryBlueColor),
+                (BlocProvider.of<ConnectDeviceCubit>(context).enabled[name] == true ? const Color(0xff618BF8) : kPrimaryBlueColor),
             foregroundColor: Colors.white,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),
+        child: Text(
+          name,
+        ),
       ),
     );
   }

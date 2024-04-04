@@ -16,27 +16,75 @@ class ConnectDeviceView extends StatefulWidget {
 }
 
 class _ConnectDeviceViewState extends State<ConnectDeviceView> {
+  final _formKey = GlobalKey<FormState>();
+  String? ipAddress;
+  String? port;
+  String? validateIpAddress(String? value) {
+      final ipAddressRegExp = RegExp(
+    r'^(\d{1,3}\.){3}\d{1,3}$',
+  );
+  if (!ipAddressRegExp.hasMatch(value!)) {
+    return 'Enter a valid IP address';
+  }
+
+  final segments = value!.split('.');
+  for (final segment in segments) {
+    final intValue = int.tryParse(segment);
+    if (intValue == null || intValue < 0 || intValue > 255) {
+      return 'Enter a valid IP address';
+    }
+  }
+    return null; // Valid IP address
+  }
+
+  String? validatePort(String? value) {
+    final port = int.tryParse(value!);
+    if (port == null || port < 1 || port > 65535) {
+      return 'Enter a valid port number (1-65535)';
+    }
+    return null; // Valid port number
+  }
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      // Form is valid, perform your action (e.g., connect to server)
+      print('IP Address: $ipAddress');
+      print('Port: $port');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text("Connectivity")),
+        surfaceTintColor: Colors.white,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text(
+          "Connectivity",
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 15.sp,
+          ),
+        ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              CustomChoiceChip(),
-              BlocBuilder<ConnectDeviceCubit, ConnectDeviceState>(
-                  builder: (context, state) {
-                if (state is ConnectDeviceWifi) {
-                  return wifi();
-                } else {
-                  return Text("Bluetooth");
-                }
-              })
-            ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const CustomChoiceChip(),
+                BlocBuilder<ConnectDeviceCubit, ConnectDeviceState>(
+                    builder: (context, state) {
+                  if (state is ConnectDeviceWifi) {
+                    return wifi();
+                  } else {
+                    return Text("Bluetooth");
+                  }
+                })
+              ],
+            ),
           ),
         ),
       ),
@@ -45,16 +93,30 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
 
   Widget wifi() {
     return Form(
+      key: _formKey,
       child: Column(
         children: [
           text("IP address"),
-          textField(),
+          textField(
+            validator: validateIpAddress,
+            onsaved: (value) {
+              ipAddress = value;
+            },
+          ),
           text("Port"),
-          textField(),
+          textField(
+            validator: validatePort,
+            onsaved: (value) {
+              port = value;
+            },
+          ),
           SizedBox(
             height: 20.h,
           ),
-          const CustomButton(
+          CustomButton(
+            onPressed: () {
+              _submitForm();
+            },
             title: "Connect",
             color: kPrimaryBlueColor,
             width: 90,
@@ -77,8 +139,12 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
     );
   }
 
-  Widget textField() {
+  Widget textField(
+      {required String? Function(String?)? validator,
+      required Function(String?)? onsaved}) {
     return TextFormField(
+      validator: validator,
+      onChanged: onsaved,
       keyboardType: TextInputType.number,
       cursorColor: kPrimaryBlueColor,
       decoration: const InputDecoration(
