@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/components/custom_button.dart';
 import 'package:seere/views/connaect_device/cubit/connect_device_cubit.dart';
@@ -7,6 +6,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../components/custon_choice_chip.dart';
 import '../../constants.dart';
+import '../../services/socket.dart';
 
 class ConnectDeviceView extends StatefulWidget {
   const ConnectDeviceView({super.key});
@@ -20,20 +20,20 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
   String? ipAddress;
   String? port;
   String? validateIpAddress(String? value) {
-      final ipAddressRegExp = RegExp(
-    r'^(\d{1,3}\.){3}\d{1,3}$',
-  );
-  if (!ipAddressRegExp.hasMatch(value!)) {
-    return 'Enter a valid IP address';
-  }
-
-  final segments = value!.split('.');
-  for (final segment in segments) {
-    final intValue = int.tryParse(segment);
-    if (intValue == null || intValue < 0 || intValue > 255) {
+    final ipAddressRegExp = RegExp(
+      r'^(\d{1,3}\.){3}\d{1,3}$',
+    );
+    if (!ipAddressRegExp.hasMatch(value!)) {
       return 'Enter a valid IP address';
     }
-  }
+
+    final segments = value!.split('.');
+    for (final segment in segments) {
+      final intValue = int.tryParse(segment);
+      if (intValue == null || intValue < 0 || intValue > 255) {
+        return 'Enter a valid IP address';
+      }
+    }
     return null; // Valid IP address
   }
 
@@ -45,11 +45,18 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
     return null; // Valid port number
   }
 
-  void _submitForm() {
+  void _submitForm(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       // Form is valid, perform your action (e.g., connect to server)
-      print('IP Address: $ipAddress');
-      print('Port: $port');
+       connectToServer(ip: ipAddress!, port: int.parse(port!)).then((connected) {
+      if (connected) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("connected to device")));
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Failed to connect to device")));
+      }
+    });
     }
   }
 
@@ -77,7 +84,7 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
                 const CustomChoiceChip(),
                 BlocBuilder<ConnectDeviceCubit, ConnectDeviceState>(
                     builder: (context, state) {
-                  if (state is ConnectDeviceWifi) {
+                  if (state is ConnectDeviceWifiState) {
                     return wifi();
                   } else {
                     return Text("Bluetooth");
@@ -115,12 +122,12 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
           ),
           CustomButton(
             onPressed: () {
-              _submitForm();
+              _submitForm(context);
             },
             title: "Connect",
             color: kPrimaryBlueColor,
             width: 90,
-          )
+          ),
         ],
       ),
     );
