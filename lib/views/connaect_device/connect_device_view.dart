@@ -51,10 +51,10 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
        connectToServer(ip: ipAddress!, port: int.parse(port!)).then((connected) {
       if (connected) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("connected to device")));
+            .showSnackBar(const SnackBar(content: Text("connected to device")));
       } else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Failed to connect to device")));
+            .showSnackBar(const SnackBar(content: Text("Failed to connect to device")));
       }
     });
     }
