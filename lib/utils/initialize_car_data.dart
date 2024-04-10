@@ -1,0 +1,15 @@
+Map<String, dynamic> requistData = {
+      //"date": ,
+      "troubleCode": "03",
+      // "description": ,
+      // "carYear": ,
+      // "enginePower": ,
+      "engineCoolantTemp": "01 05",
+      "engineLoad": "01 04",
+      "engineRPM": "01 0C",
+      "airintakeTemp": "01 0F",
+      "speed": "01 0D",
+      "shortTermFuelBank1": "01 06",
+      "throttlePosition": "01 11",
+      "timingAdvance": "01 0E",
+};

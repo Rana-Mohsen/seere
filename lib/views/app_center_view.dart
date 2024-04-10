@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seere/components/app_center_container.dart';
+import 'package:seere/widgets/app_center_container.dart';
 import 'package:sizer/sizer.dart';
 
 class AppCenterView extends StatelessWidget {

@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seere/components/custom_button.dart';
+import 'package:seere/widgets/custom_button.dart';
 import 'package:seere/views/connaect_device/cubit/connect_device_cubit.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../components/custon_choice_chip.dart';
+import '../../widgets/custon_choice_chip.dart';
 import '../../constants.dart';
+import '../../utils/validators.dart';
 import '../../services/socket.dart';
 
 class ConnectDeviceView extends StatefulWidget {
@@ -17,48 +21,33 @@ class ConnectDeviceView extends StatefulWidget {
 
 class _ConnectDeviceViewState extends State<ConnectDeviceView> {
   final _formKey = GlobalKey<FormState>();
-  String? ipAddress;
-  String? port;
-  String? validateIpAddress(String? value) {
-    final ipAddressRegExp = RegExp(
-      r'^(\d{1,3}\.){3}\d{1,3}$',
-    );
-    if (!ipAddressRegExp.hasMatch(value!)) {
-      return 'Enter a valid IP address';
-    }
+  String ipAddress = "";
+  String port = "";
+  final ipController = TextEditingController();
+  final portController = TextEditingController();
 
-    final segments = value!.split('.');
-    for (final segment in segments) {
-      final intValue = int.tryParse(segment);
-      if (intValue == null || intValue < 0 || intValue > 255) {
-        return 'Enter a valid IP address';
-      }
-    }
-    return null; // Valid IP address
+  @override
+  void initState() {
+    super.initState();
+    // You can set an initial value for the TextField here.
+    ipController.text = ipAddress;
+    portController.text = port;
   }
 
-  String? validatePort(String? value) {
-    final port = int.tryParse(value!);
-    if (port == null || port < 1 || port > 65535) {
-      return 'Enter a valid port number (1-65535)';
-    }
-    return null; // Valid port number
-  }
-
-  void _submitForm(BuildContext context) {
-    if (_formKey.currentState!.validate()) {
-      // Form is valid, perform your action (e.g., connect to server)
-       connectToServer(ip: ipAddress!, port: int.parse(port!)).then((connected) {
-      if (connected) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("connected to device")));
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Failed to connect to device")));
-      }
-    });
-    }
-  }
+  // void _submitForm(BuildContext context) {
+  //   if (_formKey.currentState!.validate()) {
+  //     // Form is valid, perform your action (e.g., connect to server)
+  //     connectToServer(ip: ipAddress!, port: int.parse(port!)).then((connected) {
+  //       if (connected) {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //             const SnackBar(content: Text("connected to device")));
+  //       } else {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //             const SnackBar(content: Text("Failed to connect to device")));
+  //       }
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -105,16 +94,18 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
         children: [
           text("IP address"),
           textField(
+            controller: ipController,
             validator: validateIpAddress,
             onsaved: (value) {
-              ipAddress = value;
+              ipAddress = value!;
             },
           ),
           text("Port"),
           textField(
+            controller: portController,
             validator: validatePort,
             onsaved: (value) {
-              port = value;
+              port = value!;
             },
           ),
           SizedBox(
@@ -122,7 +113,35 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
           ),
           CustomButton(
             onPressed: () {
-              _submitForm(context);
+              if (_formKey.currentState!.validate()) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return FutureBuilder<Socket>(
+                      future: connectToServer(ip: ipAddress, port: int.parse(port)),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<Socket> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return AlertDialog(
+                            backgroundColor: Colors.black,
+                            content: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return AlertDialog(
+                            content: Text('Error: ${snapshot.error}'),
+                          );
+                        } else {
+                          return AlertDialog(
+                            content: Text('Connected to the server'),
+                          );
+                        }
+
+                      },
+                    );
+                  },
+                );
+              }
             },
             title: "Connect",
             color: kPrimaryBlueColor,
@@ -148,9 +167,11 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
 
   Widget textField(
       {required String? Function(String?)? validator,
-      required Function(String?)? onsaved}) {
+      required Function(String?)? onsaved,
+      required TextEditingController controller}) {
     return TextFormField(
       validator: validator,
+      controller: controller,
       onChanged: onsaved,
       keyboardType: TextInputType.number,
       cursorColor: kPrimaryBlueColor,

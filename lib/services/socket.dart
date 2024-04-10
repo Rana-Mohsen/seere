@@ -1,45 +1,57 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-Future<bool> connectToServer({required String ip, required int port}) async {
+import 'package:seere/utils/initialize_car_data.dart';
+
+import 'dart:async'; // Import required for Completer
+
+String lastSentMessage = '';
+
+Future<Socket> connectToServer({required String ip, required int port}) async {
+  Socket? socket;
   try {
-    final socket = await Socket.connect(ip, port);
+    ConnectionTask<Socket> socketConnectionTask =
+        await Socket.startConnect(ip, port);
+    socket = await socketConnectionTask.socket;
     print('Connected to: ${socket.remoteAddress.address}:${socket.remotePort}');
 
     socket.listen(
       (Uint8List data) {
         final serverResponse = String.fromCharCodes(data);
-        print('Server: $serverResponse');
+          print('Server: $serverResponse');
+
+        // if (serverResponse.trim() != lastSentMessage.trim()) {
+        //   print('Server: $serverResponse');
+        // }
       },
       onError: (error) {
         print(error);
-        socket.destroy();
+        socket!.destroy();
       },
       onDone: () {
         print('Server left.');
-        socket.destroy();
+        socket!.destroy();
       },
     );
-
-    await sendMessage(socket, 'ath1');
-    return true;
+    sendMessage(socket);
   } on SocketException catch (e) {
     print('SocketException: $e');
-    return false;
-  } on OSError catch (e) {
-    print('OSError: $e');
-    return false;
   } catch (e) {
     print('General exception: $e');
-    return false;
   }
+  return socket!;
 }
 
-Future<void> sendMessage(Socket socket, String message) async {
+Future<void> sendMessage(Socket socket) async {
   try {
-    message += '\r';
-    print('Client: $message');
-    socket.write(message);
+    for (var key in requistData.keys) {
+      String message = requistData[key] + '\r\r';
+       print(key);
+      print('Client: $message');
+      socket.write(message);
+      // lastSentMessage = message; // Update the last sent message
+         await Future.delayed(const Duration(seconds: 1));
+    }
   } on SocketException catch (e) {
     print('SocketException in sendMessage: $e');
   } catch (e) {
