@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/models/car_data.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:seere/views/connaect_device/cubit/connect_device_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../widgets/custon_choice_chip.dart';
@@ -28,27 +29,28 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
   final portController = TextEditingController();
 
   @override
+  // void initState() {
+  //   super.initState();
+  //   // You can set an initial value for the TextField here.
+  //   ipController.text = ipAddress;
+  //   portController.text = port;
+  // }
   void initState() {
     super.initState();
-    // You can set an initial value for the TextField here.
-    ipController.text = ipAddress;
-    portController.text = port;
+    _loadTextFieldValue();
   }
 
-  // void _submitForm(BuildContext context) {
-  //   if (_formKey.currentState!.validate()) {
-  //     // Form is valid, perform your action (e.g., connect to server)
-  //     connectToServer(ip: ipAddress!, port: int.parse(port!)).then((connected) {
-  //       if (connected) {
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //             const SnackBar(content: Text("connected to device")));
-  //       } else {
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //             const SnackBar(content: Text("Failed to connect to device")));
-  //       }
-  //     });
-  //   }
-  // }
+  _loadTextFieldValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    ipController.text = prefs.getString('ipValue') ?? '';
+    portController.text = prefs.getString('portValue') ?? '';
+  }
+
+  _saveTextFieldValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('ipValue', ipController.text);
+    prefs.setString('portValue', portController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +117,7 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
           CustomButton(
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
+                _saveTextFieldValue();
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {

@@ -38,6 +38,7 @@ dependencies:
   sizer: ^2.0.15
   flutter_bloc: ^8.1.5
   bloc: ^8.1.4
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:
