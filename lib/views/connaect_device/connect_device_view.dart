@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seere/models/car_data.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:seere/views/connaect_device/cubit/connect_device_cubit.dart';
 import 'package:sizer/sizer.dart';
@@ -112,13 +113,14 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
             height: 20.h,
           ),
           CustomButton(
-            onPressed: () {
+            onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return FutureBuilder<Socket>(
-                      future: connectToServer(ip: ipAddress, port: int.parse(port)),
+                      future:
+                          connectToServer(ip: ipAddress, port: int.parse(port)),
                       builder: (BuildContext context,
                           AsyncSnapshot<Socket> snapshot) {
                         if (snapshot.connectionState ==
@@ -132,11 +134,18 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
                             content: Text('Error: ${snapshot.error}'),
                           );
                         } else {
+                          reciveData();
+                          Future.delayed(Duration(seconds: 30), () {
+                            print("3##########");
+                            for (var d in cardata) {
+                              print(d);
+                            }
+                            ;
+                          });
                           return AlertDialog(
                             content: Text('Connected to the server'),
                           );
                         }
-
                       },
                     );
                   },

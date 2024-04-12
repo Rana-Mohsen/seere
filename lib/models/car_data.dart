@@ -30,3 +30,5 @@ class CarDataModel {
       this.throttlePosition,
       this.timingAdvance);
 }
+
+List<String> cardata = [];
