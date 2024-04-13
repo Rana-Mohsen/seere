@@ -8,7 +8,7 @@ class ConnectDeviceCubit extends Cubit<ConnectDeviceState> {
   ConnectDeviceCubit() : super(ConnectDeviceInitial());
   String name = "Bluetooth";
   Map<String, bool> enabled = {"Bluetooth": true, "WiFi": false};
-
+  
   changeState() {
     if (name == "Bluetooth") {
       emit(ConnectDeviceBluetoothState());
@@ -17,7 +17,7 @@ class ConnectDeviceCubit extends Cubit<ConnectDeviceState> {
     }
   }
 
-  connectWifi({required String ip, required int port}) async {
+  connectWifi() async {
     
   }
 }

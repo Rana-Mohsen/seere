@@ -75,7 +75,7 @@ Future<void> reciveData() async {
         List<String> parts = line.trim().split(' ');
 
         // Check if the line is a response to a current data request
-        if (parts.length > 2 && parts[0] == '41') {
+        if (parts.length > 2 && (parts[0] == '41' || parts[0] == '43')) {
           // The second part is the PID, and the remaining parts are the value
           String pid = parts[1];
           String value = parts.sublist(2).join(' ');
@@ -108,7 +108,7 @@ Future<void> sendMessage(Socket socket) async {
       print('Client: $message');
       socket.write(message);
       // lastSentMessage = message; // Update the last sent message
-      await Future.delayed(const Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 1));
     }
   } on SocketException catch (e) {
     print('SocketException in sendMessage: $e');
