@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
@@ -9,6 +10,7 @@ import '../../models/car_data.dart';
 import '../../services/socket.dart';
 import '../../utils/validators.dart';
 import '../../widgets/custom_button.dart';
+import '../home/cubit/data_cubit.dart';
 
 class WiFi extends StatefulWidget {
   const WiFi({super.key});
@@ -89,7 +91,9 @@ class _WiFiState extends State<WiFi> {
                             content: Text('Error: ${snapshot.error}'),
                           );
                         } else {
-                          reciveData();
+                          DataCubit dataCubit = BlocProvider.of<DataCubit>(context);
+
+                          reciveData(dataCubit);
                           
                           return const AlertDialog(
                             content: Text('Connected to the server'),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seere/views/app_center_view.dart';
-import 'package:seere/views/home_view.dart';
+import 'package:seere/views/home/home_view.dart';
 import 'package:seere/views/my_info_view.dart';
 
 class NavContainer extends StatefulWidget {

@@ -1,17 +1,18 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/utils/initialize_car_data.dart';
 
 import 'dart:async';
 
-import '../models/car_data.dart'; // Import required for Completer
+import '../models/car_data.dart';
+import '../views/home/cubit/data_cubit.dart'; // Import required for Completer
 
 String lastSentMessage = '';
 Socket? socket;
-StreamController<Map<String,String>> streamController =
-    StreamController<Map<String,String>>();
-Map<String,String> latestData = {};
+Map<String, String> latestData = {};
 
 Future<Socket> connectToServer({required String ip, required int port}) async {
   try {
@@ -28,7 +29,7 @@ Future<Socket> connectToServer({required String ip, required int port}) async {
   return socket!;
 }
 
-Future<void> reciveData() async {
+Future<void> reciveData(DataCubit dataCubit) async {
   socket!.listen(
     (Uint8List data) {
       final serverResponse = String.fromCharCodes(data);
@@ -47,9 +48,9 @@ Future<void> reciveData() async {
           String pid = parts[1];
           String value = parts.sublist(2).join(' ');
           print(value);
-           // Update the latest data
-          latestData[mapPidToName(pid)] = value;
-          streamController.add({mapPidToName(pid): value});
+          // Update the latest data
+          dataCubit.updateData(mapPidToName(pid), value);
+
         }
       }
     },
@@ -67,16 +68,15 @@ Future<void> reciveData() async {
 
 Future<void> sendMessage(Socket socket) async {
   try {
-    while(true)
-    {
+    while (true) {
       for (var key in requistData.keys) {
-      String message = requistData[key] + '\r\n\r\n';
-      print(key);
-      print('Client: $message');
-      socket.write(message);
-      // lastSentMessage = message; // Update the last sent message
-      await Future.delayed(const Duration(seconds: 1));
-    }
+        String message = requistData[key] + '\r\n\r\n';
+        print(key);
+        print('Client: $message');
+        socket.write(message);
+        // lastSentMessage = message; // Update the last sent message
+        await Future.delayed(const Duration(seconds: 1));
+      }
     }
   } on SocketException catch (e) {
     print('SocketException in sendMessage: $e');
@@ -104,7 +104,7 @@ String mapPidToName(pid) {
     case '11':
       return 'throttlePosition';
     case '0E':
-      return 'timingAdvance';            
+      return 'timingAdvance';
   }
 
   return "";

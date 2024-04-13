@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/services/socket.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:seere/widgets/home_container.dart';
 import 'package:seere/constants.dart';
 import 'package:sizer/sizer.dart';
 
-import 'connaect_device/connect_device_view.dart';
+import '../connaect_device/connect_device_view.dart';
+import 'cubit/data_cubit.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -15,8 +17,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  Stream<Map<String, String>> get dataStream => streamController.stream;
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -108,35 +108,56 @@ class _HomeViewState extends State<HomeView> {
                 SizedBox(
                   height: 3.h,
                 ),
-                StreamBuilder<Map<String, String>>(
-                  stream: dataStream, // Replace with the actual stream
-                  builder: (BuildContext context,
-                      AsyncSnapshot<Map<String, String>> snapshot) {
-                    if (snapshot.hasData) {
-                      String speed = snapshot.data!['speed'] ?? 'N/A';
-                      String engineRPM = snapshot.data!['engineRPM'] ?? 'N/A';
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          HomeContainer(
-                            data: speed,
-                            text1: "km/h",
-                            text2: "Current speed",
-                            text3: "Real-time speed according to OBD data",
-                          ),
-                          HomeContainer(
-                            data: engineRPM,
-                            text1: "RPM",
-                            text2: "Engine RPM",
-                            text3: "Real-time engine RPM according to OBD data",
-                          ),
-                        ],
-                      );
-                    } else {
-                      return CircularProgressIndicator(); // Show a loading spinner while waiting for data
-                    }
+                BlocBuilder<DataCubit, Map<String, dynamic>>(
+                  builder: (context, state) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        HomeContainer(
+                          data: state['speed']??"N/A",
+                          text1: "km/h",
+                          text2: "Current speed",
+                          text3: "Real-time speed according to OBD data",
+                        ),
+                        HomeContainer(
+                          data: state['engineRPM']??"N/A",
+                          text1: "RPM",
+                          text2: "Engine RPM",
+                          text3: "Real-time engine RPM according to OBD data",
+                        ),
+                      ],
+                    );
                   },
                 ),
+                // StreamBuilder<Map<String, String>>(
+                //   stream: dataStream, // Replace with the actual stream
+                //   builder: (BuildContext context,
+                //       AsyncSnapshot<Map<String, String>> snapshot) {
+                //     if (snapshot.hasData) {
+                //       String speed = snapshot.data!['speed'] ?? 'N/A';
+                //       String engineRPM = snapshot.data!['engineRPM'] ?? 'N/A';
+                //       return Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //         children: [
+                //           HomeContainer(
+                //             data: speed,
+                //             text1: "km/h",
+                //             text2: "Current speed",
+                //             text3: "Real-time speed according to OBD data",
+                //           ),
+                //           HomeContainer(
+                //             data: engineRPM,
+                //             text1: "RPM",
+                //             text2: "Engine RPM",
+                //             text3: "Real-time engine RPM according to OBD data",
+                //           ),
+                //         ],
+                //       );
+                //     } else {
+                //       return CircularProgressIndicator(); // Show a loading spinner while waiting for data
+                //     }
+                //   },
+                // ),
                 SizedBox(
                   height: 2.h,
                 ),

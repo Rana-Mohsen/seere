@@ -6,6 +6,7 @@ import 'package:seere/views/nav_container.dart';
 import 'package:sizer/sizer.dart';
 
 import 'simple_bloc_observer.dart';
+import 'views/home/cubit/data_cubit.dart';
 
 void main() {
   Bloc.observer = SimpleBlocObserver();
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       return MultiBlocProvider(
         providers: [
           BlocProvider(create: ((context) => ConnectDeviceCubit())),
-          
+          BlocProvider(create: ((context) => DataCubit())),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
