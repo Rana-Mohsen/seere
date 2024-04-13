@@ -76,7 +76,7 @@ class _WiFiState extends State<WiFi> {
                   builder: (BuildContext context) {
                     return FutureBuilder<Socket>(
                       future:
-                          connectToServer(ip: ipAddress, port: int.parse(port)),
+                          connectToServer(ip: ipController.text, port: int.parse(portController.text)),
                       builder: (BuildContext context,
                           AsyncSnapshot<Socket> snapshot) {
                         if (snapshot.connectionState ==

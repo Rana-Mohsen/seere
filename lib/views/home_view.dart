@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seere/services/socket.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:seere/widgets/home_container.dart';
 import 'package:seere/constants.dart';
-import 'package:seere/views/connaect_device/cubit/connect_device_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 import 'connaect_device/connect_device_view.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  Stream<Map<String, String>> get dataStream => streamController.stream;
 
   @override
   Widget build(BuildContext context) {
@@ -102,22 +108,35 @@ class HomeView extends StatelessWidget {
                 SizedBox(
                   height: 3.h,
                 ),
-                const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      HomeContainer(
-                        data: "50",
-                        text1: "L/100Km",
-                        text2: "Current estimated fuel consumption",
-                        text3: "Real-time calculated according to OBD data",
-                      ),
-                      HomeContainer(
-                        data: "50",
-                        text1: "L/100Km",
-                        text2: "Current estimated fuel consumption",
-                        text3: "Real-time calculated according to OBD data",
-                      ),
-                    ]),
+                StreamBuilder<Map<String, String>>(
+                  stream: dataStream, // Replace with the actual stream
+                  builder: (BuildContext context,
+                      AsyncSnapshot<Map<String, String>> snapshot) {
+                    if (snapshot.hasData) {
+                      String speed = snapshot.data!['speed'] ?? 'N/A';
+                      String engineRPM = snapshot.data!['engineRPM'] ?? 'N/A';
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          HomeContainer(
+                            data: speed,
+                            text1: "km/h",
+                            text2: "Current speed",
+                            text3: "Real-time speed according to OBD data",
+                          ),
+                          HomeContainer(
+                            data: engineRPM,
+                            text1: "RPM",
+                            text2: "Engine RPM",
+                            text3: "Real-time engine RPM according to OBD data",
+                          ),
+                        ],
+                      );
+                    } else {
+                      return CircularProgressIndicator(); // Show a loading spinner while waiting for data
+                    }
+                  },
+                ),
                 SizedBox(
                   height: 2.h,
                 ),
