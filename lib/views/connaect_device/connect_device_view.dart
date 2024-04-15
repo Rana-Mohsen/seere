@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seere/views/connaect_device/bluetooth.dart';
 import 'package:seere/views/connaect_device/cubit/connect_device_cubit.dart';
 import 'package:seere/views/connaect_device/wifi.dart';
 import 'package:sizer/sizer.dart';
@@ -40,7 +41,7 @@ class _ConnectDeviceViewState extends State<ConnectDeviceView> {
                   if (state is ConnectDeviceWifiState) {
                     return const WiFi();
                   } else {
-                    return Text("Bluetooth");
+                    return const Bluetooth();
                   }
                 })
               ],

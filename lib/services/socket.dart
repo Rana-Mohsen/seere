@@ -1,13 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/utils/initialize_car_data.dart';
-
 import 'dart:async';
-
-import '../models/car_data.dart';
 import '../views/home/cubit/data_cubit.dart'; // Import required for Completer
 
 String lastSentMessage = '';
