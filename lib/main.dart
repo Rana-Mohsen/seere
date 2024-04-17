@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seere/constants.dart';
+//import 'package:seere/constants.dart';
 import 'package:seere/views/connaect_device/cubit/connect_device_cubit.dart';
-import 'package:seere/views/nav_container.dart';
+//import 'package:seere/views/nav_container.dart';
+import 'package:seere/views/splash_screen.dart';
 import 'package:sizer/sizer.dart';
 
 import 'simple_bloc_observer.dart';
@@ -27,10 +28,43 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
+          title: 'SeerE',
           theme: ThemeData(
-            scaffoldBackgroundColor: kPrimaryBackGroundColor,
+            primaryColor: Color(0xFF235DFF),
+            //scaffoldBackgroundColor: kPrimaryBackGroundColor,
+            textSelectionTheme:
+                const TextSelectionThemeData(cursorColor: Colors.white),
+            fontFamily: 'SourceSansPro',
+            textTheme: const TextTheme(
+              displaySmall: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 45.0,
+                fontWeight: FontWeight.w400,
+                color: Colors.white,
+              ),
+              labelLarge: TextStyle(
+                // OpenSans is similar to NotoSans but the uppercases look a bit better IMO
+                fontFamily: 'OpenSans',
+              ),
+              bodySmall: TextStyle(
+                fontFamily: 'NotoSans',
+                fontSize: 12.0,
+                fontWeight: FontWeight.normal,
+                color: Color(0xFF235DFF),
+              ),
+              displayLarge: TextStyle(fontFamily: 'Quicksand'),
+              displayMedium: TextStyle(fontFamily: 'Quicksand'),
+              headlineMedium: TextStyle(fontFamily: 'Quicksand'),
+              headlineSmall: TextStyle(fontFamily: 'NotoSans'),
+              titleLarge: TextStyle(fontFamily: 'NotoSans'),
+              titleMedium: TextStyle(fontFamily: 'NotoSans'),
+              bodyLarge: TextStyle(fontFamily: 'NotoSans'),
+              bodyMedium: TextStyle(fontFamily: 'NotoSans'),
+              titleSmall: TextStyle(fontFamily: 'NotoSans'),
+              labelSmall: TextStyle(fontFamily: 'NotoSans'),
+            ),
           ),
-          home: const NavContainer(),
+          home: const SplashScreen(),
         ),
       );
     });
