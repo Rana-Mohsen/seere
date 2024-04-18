@@ -32,18 +32,19 @@ class Obd2Plugin {
     final String? version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
-  Future<void> get permitions async{
-     var status = await Permission.bluetooth.status;
-        if (status.isDenied) {
-          await Permission.bluetooth.request();
-        }
-        // Request BLUETOOTH_CONNECT permission at runtime
-        if (await Permission.bluetoothConnect.status.isDenied) {
-          await Permission.bluetoothConnect.request();
-        }
-        if (await Permission.bluetoothScan.status.isDenied) {
-          await Permission.bluetoothScan.request();
-        }
+
+  Future<void> get permitions async {
+    var status = await Permission.bluetooth.status;
+    if (status.isDenied) {
+      await Permission.bluetooth.request();
+    }
+    // Request BLUETOOTH_CONNECT permission at runtime
+    if (await Permission.bluetoothConnect.status.isDenied) {
+      await Permission.bluetoothConnect.request();
+    }
+    if (await Permission.bluetoothScan.status.isDenied) {
+      await Permission.bluetoothScan.request();
+    }
   }
 
   Future<BluetoothState> get initBluetooth async {
@@ -92,15 +93,15 @@ class Obd2Plugin {
   }
 
   Future<List<BluetoothDevice>> get getPairedDevices async {
-  //     var status = await Permission.bluetooth.status;
-  // if (!status.isGranted) {
-  //   await Permission.bluetooth.request();
-  // }
+    //     var status = await Permission.bluetooth.status;
+    // if (!status.isGranted) {
+    //   await Permission.bluetooth.request();
+    // }
 
-  // // Request BLUETOOTH_CONNECT permission at runtime
-  // if (await Permission.bluetoothConnect.status.isDenied) {
-  //   await Permission.bluetoothConnect.request();
-  // }
+    // // Request BLUETOOTH_CONNECT permission at runtime
+    // if (await Permission.bluetoothConnect.status.isDenied) {
+    //   await Permission.bluetoothConnect.request();
+    // }
     return await _bluetooth.getBondedDevices();
   }
 
@@ -174,6 +175,7 @@ class Obd2Plugin {
     if (connection?.isConnected == true) {
       await connection?.close();
       connection = null;
+      onResponse = null;
       return true;
     } else {
       connection = null;

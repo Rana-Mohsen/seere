@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/constants.dart';
+import 'package:seere/views/connaect_device/cubit/bluetooth_cubit.dart';
 import 'package:seere/views/connaect_device/cubit/connect_device_cubit.dart';
 import 'package:seere/views/nav_container.dart';
 import 'package:sizer/sizer.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: ((context) => ConnectDeviceCubit())),
           BlocProvider(create: ((context) => DataCubit())),
+          BlocProvider(create: ((context) => BluetoothCubit())),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

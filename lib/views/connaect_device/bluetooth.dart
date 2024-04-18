@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart'
+    hide BluetoothState;
 import 'package:seere/constants.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../services/bluetooth/obd2_plugin.dart';
+import 'cubit/bluetooth_cubit.dart';
 
 class Bluetooth extends StatefulWidget {
   const Bluetooth({super.key});
@@ -15,9 +18,11 @@ class Bluetooth extends StatefulWidget {
 
 class _BluetoothState extends State<Bluetooth> {
   final obd2 = Obd2Plugin();
-
+  //List<BluetoothDevice>? devices;
   @override
   Widget build(BuildContext context) {
+    var bloc = BlocProvider.of<BluetoothCubit>(context);
+
     return Column(
       children: [
         SizedBox(
@@ -25,15 +30,9 @@ class _BluetoothState extends State<Bluetooth> {
         ),
         CustomButton(
           onPressed: () async {
-            obd2.permitions;
-            if (!(await obd2.isBluetoothEnable)) {
-              await obd2.enableBluetooth;
-            }
-            if (!(await obd2.hasConnection)) {
-              await showBluetoothList(context, obd2);
-            }
+            await bloc.bluetoothButton();
           },
-          title: "Search Bluetooth Devices",
+          title: bloc.buttonOn ? "Disconnect" :"Search Bluetooth Devices",
           color: kPrimaryBlueColor,
           width: 70,
         ),
@@ -44,14 +43,31 @@ class _BluetoothState extends State<Bluetooth> {
           color: Colors.black54,
           height: 0,
         ),
+        BlocConsumer<BluetoothCubit, BluetoothState>(
+          listener: (context, state) {
+            if (state is ShowBluetoothList) {
+              showBluetoothList(context, state.devices);
+            }
+          },
+          builder: (context, state) {
+            if (state is WaitingForDevices) {
+              return CircularProgressIndicator();
+            }
+            if (state is BluetoothOn) {
+              return Text(bloc.device!.name!);
+            } else {
+              return Text("None");
+            }
+          },
+        )
       ],
     );
   }
 }
 
 Future<void> showBluetoothList(
-    BuildContext context, Obd2Plugin obd2plugin) async {
-  List<BluetoothDevice> devices = await obd2plugin.getPairedDevices;
+    BuildContext context, List<BluetoothDevice> devices) async {
+  // List<BluetoothDevice> devices = await obd2plugin.getPairedDevices;
   if (ModalRoute.of(context)?.isCurrent ?? false) {
     // Check if the current context is still mounted
     showModalBottomSheet(
@@ -68,14 +84,10 @@ Future<void> showBluetoothList(
                 return SizedBox(
                   height: 50,
                   child: TextButton(
-                    onPressed: () {
-                      obd2plugin.getConnection(devices[index], (connection) {
-                        print("connected to bluetooth device.");
-                        Navigator.pop(builder);
-                      }, (message) {
-                        print("error in connecting: $message");
-                        Navigator.pop(builder);
-                      });
+                    onPressed: () async {
+                      await BlocProvider.of<BluetoothCubit>(context)
+                          .connectToDevice(index);
+                      Navigator.pop(builder);
                     },
                     child: Center(
                       child: Text(
