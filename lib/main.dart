@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seere/constants.dart';
 //import 'package:seere/constants.dart';
 import 'package:seere/views/connaect_device/cubit/bluetooth_cubit.dart';
 import 'package:seere/views/connaect_device/cubit/connect_device_cubit.dart';
+import 'package:seere/views/nav_container.dart';
 //import 'package:seere/views/nav_container.dart';
 import 'package:seere/views/splash_screen.dart';
 import 'package:sizer/sizer.dart';
-
 import 'simple_bloc_observer.dart';
-import 'views/connaect_device/cubit/bluetooth_cubit.dart';
 import 'views/home/cubit/data_cubit.dart';
 
 void main() {
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           title: 'SeerE',
           theme: ThemeData(
             primaryColor: Color(0xFF235DFF),
-            //scaffoldBackgroundColor: kPrimaryBackGroundColor,
+            scaffoldBackgroundColor: kPrimaryBackGroundColor,
             textSelectionTheme:
                 const TextSelectionThemeData(cursorColor: Colors.white),
             fontFamily: 'SourceSansPro',
@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
               labelSmall: TextStyle(fontFamily: 'NotoSans'),
             ),
           ),
-          home: const SplashScreen(),
+           home:  const SplashScreen(),//NavContainer()
         ),
       );
     });

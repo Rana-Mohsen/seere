@@ -5,7 +5,11 @@ import '../views/connaect_device/connect_device_view.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton(
-      {super.key, required this.onPressed,required this.title, required this.color, this.width = 58});
+      {super.key,
+      required this.onPressed,
+      required this.title,
+      required this.color,
+      this.width = 59});
   final String title;
   final Color color;
   final int width;

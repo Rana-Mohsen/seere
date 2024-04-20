@@ -28,13 +28,19 @@ class _BluetoothState extends State<Bluetooth> {
         SizedBox(
           height: 3.h,
         ),
-        CustomButton(
-          onPressed: () async {
-            await bloc.bluetoothButton();
+        BlocBuilder<BluetoothCubit, BluetoothState>(
+          builder: (context, state) {
+            return CustomButton(
+              onPressed: () async {
+                await bloc.bluetoothButton();
+              },
+              title: bloc.device != null
+                  ? "Disconnect"
+                  : "Search Bluetooth Devices",
+              color: kPrimaryBlueColor,
+              width: 70,
+            );
           },
-          title: bloc.buttonOn ? "Disconnect" :"Search Bluetooth Devices",
-          color: kPrimaryBlueColor,
-          width: 70,
         ),
         SizedBox(
           height: 3.h,
@@ -42,6 +48,9 @@ class _BluetoothState extends State<Bluetooth> {
         const Divider(
           color: Colors.black54,
           height: 0,
+        ),
+        SizedBox(
+          height: 3.h,
         ),
         BlocConsumer<BluetoothCubit, BluetoothState>(
           listener: (context, state) {
@@ -54,9 +63,22 @@ class _BluetoothState extends State<Bluetooth> {
               return CircularProgressIndicator();
             }
             if (state is BluetoothOn) {
-              return Text(bloc.device!.name!);
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    bloc.device!.name!,
+                    style:
+                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
+                  ),
+                  const Text(
+                    "Connected",
+                    style: TextStyle(color: Colors.green),
+                  )
+                ],
+              );
             } else {
-              return Text("None");
+              return const Text("Unconnected");
             }
           },
         )
