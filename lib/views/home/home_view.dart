@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seere/services/socket.dart';
+import 'package:seere/utils/initialize_car_data.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:seere/widgets/home_container.dart';
 import 'package:seere/constants.dart';
@@ -108,25 +108,30 @@ class _HomeViewState extends State<HomeView> {
                 SizedBox(
                   height: 3.h,
                 ),
-                BlocBuilder<DataCubit, Map<String, dynamic>>(
+                BlocBuilder<DataCubit, DataState>(
                   builder: (context, state) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        HomeContainer(
-                          data: state['speed']??"N/A",
-                          text1: "km/h",
-                          text2: "Current speed",
-                          text3: "Real-time speed according to OBD data",
-                        ),
-                        HomeContainer(
-                          data: state['engineRPM']??"N/A",
-                          text1: "RPM",
-                          text2: "Engine RPM",
-                          text3: "Real-time engine RPM according to OBD data",
-                        ),
-                      ],
-                    );
+                    if (state is BlueData || state is WifiData) {
+                    // print("====>>>>$requistedData");
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          HomeContainer(
+                            data: requistedData['speed'] ?? "N/A",
+                            text1: "",
+                            text2: "Current speed",
+                            text3: "Real-time speed according to OBD data",
+                          ),
+                          HomeContainer(
+                            data: requistedData['engineRPM'] ?? "N/A",
+                            text1: "",
+                            text2: "Engine RPM",
+                            text3: "Real-time engine RPM according to OBD data",
+                          ),
+                        ],
+                      );
+                    } else {
+                      return CircularProgressIndicator();
+                    }
                   },
                 ),
                 // StreamBuilder<Map<String, String>>(

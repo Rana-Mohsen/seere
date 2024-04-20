@@ -1,14 +1,21 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:seere/utils/initialize_car_data.dart';
 
 part 'data_state.dart';
 
-class DataCubit extends Cubit<Map<String, dynamic>> {
-  DataCubit() : super({});
+class DataCubit extends Cubit<DataState> {
+  DataCubit() : super(DataInitial());
 
-  void updateData(String pid, dynamic value) {
-      Map<String, dynamic> newState = Map.from(state);
-    newState[pid] = value;
-    emit(newState);
+  void updateDataWifi(String name, dynamic value) {
+    requistedData[name] = value;
+    emit(WifiData());
   }
+
+  void updateDataBlue(String name, dynamic value) {
+    requistedData[name] = value;
+
+    emit(BlueData());
+  }
+ 
 }

@@ -67,7 +67,8 @@ class MyApp extends StatelessWidget {
               labelSmall: TextStyle(fontFamily: 'NotoSans'),
             ),
           ),
-           home:  const SplashScreen(),//NavContainer()
+           home: NavContainer(),
+           //const SplashScreen(),
         ),
       );
     });

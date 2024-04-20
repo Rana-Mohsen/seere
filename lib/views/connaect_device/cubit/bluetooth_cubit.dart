@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:meta/meta.dart';
+import 'package:seere/views/home/cubit/data_cubit.dart';
 
 import '../../../services/bluetooth/obd2_plugin.dart';
 import '../../../utils/initialize_car_data.dart';
@@ -16,16 +18,6 @@ class BluetoothCubit extends Cubit<BluetoothState> {
   List<BluetoothDevice> devices = [];
   BluetoothDevice? device;
   bool send = true;
-  Map<String, dynamic> requistedData = {
-    "engineCoolantTemp": "",
-    "engineLoad": "",
-    "engineRPM": "",
-    "airintakeTemp": "",
-    "speed": "",
-    "shortTermFuelBank1": "",
-    "throttlePosition": "",
-    "timingAdvance": "",
-  };
 
   bluetoothButton() async {
     if (!buttonOn) {
@@ -51,12 +43,12 @@ class BluetoothCubit extends Cubit<BluetoothState> {
     }
   }
 
-  connectToDevice(int index) async {
+  connectToDevice(int index, DataCubit dataCubit) async {
     obd2.getConnection(devices[index], (connection) {
       device = devices[index];
       print("connected to bluetooth device.");
       obd2.setOnDataReceived((command, response, requestCode) {
-        updateData(response);
+        updateData(response, dataCubit);
       });
       sendRequiests();
       emit(BluetoothOn());
@@ -75,7 +67,7 @@ class BluetoothCubit extends Cubit<BluetoothState> {
     }
   }
 
-  updateData(response) {
+  updateData(response, DataCubit dataCubit) {
     List<dynamic> responseData = json.decode(response);
     String resp;
     for (var data in responseData) {
@@ -83,9 +75,33 @@ class BluetoothCubit extends Cubit<BluetoothState> {
       if (resp.contains('.')) {
         resp = double.parse(resp).toStringAsFixed(1);
       }
-      requistedData[data["title"]] = resp + data["unit"];
+      
+      String name = mapRespNameToRequistedData(data["title"]), value = resp + data["unit"];
+      dataCubit.updateDataBlue(name, value);
     }
-
-    print(requistedData);
+    //print(requistedData);
   }
+
+  String mapRespNameToRequistedData(String name) {
+  switch (name) {
+    case 'Engine Coolant Temp':
+      return 'engineCoolantTemp';
+    case 'Engine Load':
+      return 'engineLoad';
+    case 'Engine RPM':
+      return 'engineRPM';
+    case 'Air Intake Temp':
+      return 'airintakeTemp';
+    case 'Speed':
+      return 'speed';
+    case 'Short Term Fuel Bank':
+      return 'shortTermFuelBank1';
+    case 'Throttle Position':
+      return 'throttlePosition';
+    case 'Timing Advance':
+      return 'timingAdvance';
+  }
+
+  return "";
+}
 }

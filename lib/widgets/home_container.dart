@@ -22,18 +22,42 @@ class _HomeContainerState extends State<HomeContainer> {
         decoration: boxDecoration(),
         height: 19.h,
         width: 43.w,
-        child: Column(
-          children: [
-            Text(widget.data + widget.text1),
-            Text(
-              widget.text2,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 10.sp,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.data + widget.text1,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12.sp,
+                ),
               ),
-            ),
-            Text(widget.text3)
-          ],
+              SizedBox(
+                height: 1.h,
+              ),
+              Text(
+                widget.text2,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 10.sp,
+                ),
+              ),
+              SizedBox(
+                height: 1.h,
+              ),
+              Text(
+                widget.text3,
+                style: TextStyle(
+                  color: Colors.black45,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 8.sp,
+                ),
+              )
+            ],
+          ),
         ));
   }
 }

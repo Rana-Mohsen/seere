@@ -6,7 +6,6 @@ import '../views/home/cubit/data_cubit.dart'; // Import required for Completer
 
 String lastSentMessage = '';
 Socket? socket;
-Map<String, String> latestData = {};
 
 Future<Socket> connectToServer({required String ip, required int port}) async {
   try {
@@ -43,7 +42,7 @@ Future<void> reciveData(DataCubit dataCubit) async {
           String value = parts.sublist(2).join(' ');
           print(value);
           // Update the latest data
-          dataCubit.updateData(mapPidToName(pid), value);
+          dataCubit.updateDataWifi(mapPidToName(pid), value);
 
         }
       }

@@ -7,6 +7,7 @@ import 'package:seere/widgets/custom_button.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../services/bluetooth/obd2_plugin.dart';
+import '../home/cubit/data_cubit.dart';
 import 'cubit/bluetooth_cubit.dart';
 
 class Bluetooth extends StatefulWidget {
@@ -107,8 +108,9 @@ Future<void> showBluetoothList(
                   height: 50,
                   child: TextButton(
                     onPressed: () async {
+                      DataCubit dataCubit = BlocProvider.of<DataCubit>(context);
                       await BlocProvider.of<BluetoothCubit>(context)
-                          .connectToDevice(index);
+                          .connectToDevice(index, dataCubit);
                       Navigator.pop(builder);
                     },
                     child: Center(
