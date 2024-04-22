@@ -31,7 +31,7 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: CustomButton(
                 onPressed: () {
                   //BlocProvider.of<ConnectDeviceCubit>(context).changeState();
@@ -111,18 +111,18 @@ class _HomeViewState extends State<HomeView> {
                 BlocBuilder<DataCubit, DataState>(
                   builder: (context, state) {
                     if (state is BlueData || state is WifiData) {
-                    // print("====>>>>$requistedData");
+                      // print("====>>>>$requistedData");
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           HomeContainer(
-                            data: requistedData['speed'] ?? "N/A",
+                            data: requistedData['speed'],
                             text1: "",
                             text2: "Current speed",
                             text3: "Real-time speed according to OBD data",
                           ),
                           HomeContainer(
-                            data: requistedData['engineRPM'] ?? "N/A",
+                            data: requistedData['engineRPM'],
                             text1: "",
                             text2: "Engine RPM",
                             text3: "Real-time engine RPM according to OBD data",
@@ -130,39 +130,26 @@ class _HomeViewState extends State<HomeView> {
                         ],
                       );
                     } else {
-                      return CircularProgressIndicator();
+                      return const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          HomeContainer(
+                            data: "N/A",
+                            text1: "",
+                            text2: "Current speed",
+                            text3: "Real-time speed according to OBD data",
+                          ),
+                          HomeContainer(
+                            data: "N/A",
+                            text1: "",
+                            text2: "Engine RPM",
+                            text3: "Real-time engine RPM according to OBD data",
+                          ),
+                        ],
+                      );
                     }
                   },
                 ),
-                // StreamBuilder<Map<String, String>>(
-                //   stream: dataStream, // Replace with the actual stream
-                //   builder: (BuildContext context,
-                //       AsyncSnapshot<Map<String, String>> snapshot) {
-                //     if (snapshot.hasData) {
-                //       String speed = snapshot.data!['speed'] ?? 'N/A';
-                //       String engineRPM = snapshot.data!['engineRPM'] ?? 'N/A';
-                //       return Row(
-                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //         children: [
-                //           HomeContainer(
-                //             data: speed,
-                //             text1: "km/h",
-                //             text2: "Current speed",
-                //             text3: "Real-time speed according to OBD data",
-                //           ),
-                //           HomeContainer(
-                //             data: engineRPM,
-                //             text1: "RPM",
-                //             text2: "Engine RPM",
-                //             text3: "Real-time engine RPM according to OBD data",
-                //           ),
-                //         ],
-                //       );
-                //     } else {
-                //       return CircularProgressIndicator(); // Show a loading spinner while waiting for data
-                //     }
-                //   },
-                // ),
                 SizedBox(
                   height: 2.h,
                 ),
