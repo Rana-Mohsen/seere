@@ -8,12 +8,15 @@ BoxDecoration boxDecoration({double radius = 8}) {
     color: Colors.white,
     borderRadius: BorderRadius.circular(radius),
     boxShadow: [
-      BoxShadow(
-        color: Colors.grey.withOpacity(0.5),
-        spreadRadius: 0,
-        blurRadius: 4,
-        offset: const Offset(0, 4),
-      ),
+      boxShadow(),
     ],
   );
+}
+
+BoxShadow boxShadow() {
+  return BoxShadow(
+      color: Colors.grey.withOpacity(0.5),
+      spreadRadius: 0,
+      blurRadius: 4,
+      offset: const Offset(0, 4));
 }
