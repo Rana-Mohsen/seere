@@ -19,164 +19,166 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 20.h,
-            width: double.maxFinite,
-            child: Image.asset(
-              'assets/images/appbar.png',
-              fit: BoxFit.cover,
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 20.h,
+              width: double.maxFinite,
+              child: Image.asset(
+                'assets/images/appbar.png',
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomButton(
-                onPressed: () {
-                  //BlocProvider.of<ConnectDeviceCubit>(context).changeState();
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomButton(
+                  onPressed: () {
+                    //BlocProvider.of<ConnectDeviceCubit>(context).changeState();
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ConnectDeviceView()));
-                },
-                title: "Activate Paried Device",
-                color: kPrimaryBlueColor),
-          ),
-          SizedBox(
-            height: 20.h,
-            width: double.infinity,
-            child: Image.asset(
-              'assets/images/home_car.png',
-              fit: BoxFit.cover,
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ConnectDeviceView()));
+                  },
+                  title: "Activate Paried Device",
+                  color: kPrimaryBlueColor),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              children: [
-                Container(
-                  decoration: boxDecoration(),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+            SizedBox(
+              height: 20.h,
+              width: double.infinity,
+              child: Image.asset(
+                'assets/images/home_car.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: boxDecoration(),
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(
+                          width: 2.w,
+                        ),
+                        customIconButtom(
+                          onPressed: () {},
+                          image: "assets/icons/trouble_scanning_icon.png",
+                          text: "Trouble Scanning",
+                        ),
+                        const Spacer(
+                          flex: 2,
+                        ),
+                        customIconButtom(
+                          onPressed: () {},
+                          image: "assets/icons/trouble_scanning_icon.png",
+                          text: "In-depth check",
+                        ),
+                        const Spacer(
+                          flex: 3,
+                        ),
+                        customIconButtom(
+                          onPressed: () {},
+                          image: "assets/icons/live_data.png",
+                          text: "Live data",
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Row(
                     children: [
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      customIconButtom(
-                        onPressed: () {},
-                        image: "assets/icons/trouble_scanning_icon.png",
-                        text: "Trouble Scanning",
-                      ),
-                      const Spacer(
-                        flex: 2,
-                      ),
-                      customIconButtom(
-                        onPressed: () {},
-                        image: "assets/icons/trouble_scanning_icon.png",
-                        text: "In-depth check",
-                      ),
-                      const Spacer(
-                        flex: 3,
-                      ),
-                      customIconButtom(
-                        onPressed: () {},
-                        image: "assets/icons/live_data.png",
-                        text: "Live data",
-                      ),
-                      SizedBox(
-                        width: 5.w,
+                      Text(
+                        "Driving data",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16.sp,
+                        ),
                       ),
                     ],
                   ),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Driving data",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  BlocBuilder<DataCubit, DataState>(
+                    builder: (context, state) {
+                      if (state is BlueData || state is WifiData) {
+                        // print("====>>>>$requistedData");
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            HomeContainer(
+                              data: requistedData['speed'],
+                              text1: "",
+                              text2: "Current speed",
+                              text3: "Real-time speed according to OBD data",
+                            ),
+                            HomeContainer(
+                              data: requistedData['engineRPM'],
+                              text1: "",
+                              text2: "Engine RPM",
+                              text3: "Real-time engine RPM according to OBD data",
+                            ),
+                          ],
+                        );
+                      } else {
+                        return const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            HomeContainer(
+                              data: "N/A",
+                              text1: "",
+                              text2: "Current speed",
+                              text3: "Real-time speed according to OBD data",
+                            ),
+                            HomeContainer(
+                              data: "N/A",
+                              text1: "",
+                              text2: "Engine RPM",
+                              text3: "Real-time engine RPM according to OBD data",
+                            ),
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Trip data",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16.sp,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 3.h,
-                ),
-                BlocBuilder<DataCubit, DataState>(
-                  builder: (context, state) {
-                    if (state is BlueData || state is WifiData) {
-                      // print("====>>>>$requistedData");
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          HomeContainer(
-                            data: requistedData['speed'],
-                            text1: "",
-                            text2: "Current speed",
-                            text3: "Real-time speed according to OBD data",
-                          ),
-                          HomeContainer(
-                            data: requistedData['engineRPM'],
-                            text1: "",
-                            text2: "Engine RPM",
-                            text3: "Real-time engine RPM according to OBD data",
-                          ),
-                        ],
-                      );
-                    } else {
-                      return const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          HomeContainer(
-                            data: "N/A",
-                            text1: "",
-                            text2: "Current speed",
-                            text3: "Real-time speed according to OBD data",
-                          ),
-                          HomeContainer(
-                            data: "N/A",
-                            text1: "",
-                            text2: "Engine RPM",
-                            text3: "Real-time engine RPM according to OBD data",
-                          ),
-                        ],
-                      );
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Trip data",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Container(
-                  height: 15.h,
-                  width: double.maxFinite,
-                  decoration: boxDecoration(),
-                  child: Image.asset("assets/images/trip_data.png"),
-                )
-              ],
-            ),
-          )
-        ],
+                    ],
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Container(
+                    height: 15.h,
+                    width: double.maxFinite,
+                    decoration: boxDecoration(),
+                    child: Image.asset("assets/images/trip_data.png"),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

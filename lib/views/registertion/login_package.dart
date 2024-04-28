@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
+import 'package:seere/constants.dart';
+import 'package:seere/utils/login_helpper.dart';
 import 'package:seere/views/nav_container.dart';
 import 'package:seere/views/registertion/apiData.dart';
 
@@ -50,6 +52,7 @@ class LoginScreen extends StatelessWidget {
           await ApiService().signupUser(email, password, password, username!);
       if (response.statusCode == 200) {
         // Handle successful login (e.g., parse token, store in secure storage)
+
         print(confirmPassword);
         print('///////////////////');
 
@@ -86,6 +89,7 @@ class LoginScreen extends StatelessWidget {
         UserFormField(keyName: 'Name'),
       ],
       onSubmitAnimationCompleted: () {
+        Helper.saveUserLoggedInSharedPreference(true);
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const NavContainer(),
         ));

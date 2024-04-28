@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/constants.dart';
+import 'package:seere/utils/login_helpper.dart';
 //import 'package:seere/constants.dart';
 import 'package:seere/views/connaect_device/cubit/bluetooth_cubit.dart';
 import 'package:seere/views/connaect_device/cubit/connect_device_cubit.dart';
@@ -11,17 +12,37 @@ import 'package:sizer/sizer.dart';
 import 'simple_bloc_observer.dart';
 import 'views/home/cubit/data_cubit.dart';
 
-void main() {
+void main() async {
   Bloc.observer = SimpleBlocObserver();
+
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget w =
+      Helper.isLogged == true ? const NavContainer() : const SplashScreen();
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+  }
+
+  checkLoginStatus() async {
+    await Helper.getUserLoggedInSharedPreference();
+    setState(() {});
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    //getlogged();
     return Sizer(builder: (context, orientation, deviceType) {
       return MultiBlocProvider(
         providers: [
@@ -67,8 +88,10 @@ class MyApp extends StatelessWidget {
               labelSmall: TextStyle(fontFamily: 'NotoSans'),
             ),
           ),
-           home: NavContainer(),
-           //const SplashScreen(),
+          home: Helper.isLogged == true
+              ? const NavContainer()
+              : const SplashScreen(),
+          //const SplashScreen(),
         ),
       );
     });

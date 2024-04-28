@@ -18,6 +18,7 @@ class AppCenterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         centerTitle: true,
