@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:seere/constants.dart';
 import 'package:seere/utils/login_helpper.dart';
 import 'package:seere/views/car_management_view.dart';
+import 'package:seere/views/registertion/login_package.dart';
+import 'package:seere/views/splash_screen.dart';
 import 'package:sizer/sizer.dart';
 
 class MyInfoView extends StatelessWidget {
@@ -110,7 +112,10 @@ class MyInfoView extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Helper.saveUserLoggedInSharedPreference(false);
-                    
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SplashScreen()));
                   },
                   child: Container(
                     width: double.maxFinite,
