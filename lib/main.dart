@@ -19,26 +19,8 @@ void main() async {
   runApp(Phoenix(child: const MyApp()));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  Widget w =
-      Helper.isLogged == true ? const NavContainer() : const SplashScreen();
-  void initState() {
-    super.initState();
-    checkLoginStatus();
-  }
-
-  checkLoginStatus() async {
-    await Helper.getUserLoggedInSharedPreference();
-    setState(() {});
-  }
 
   // This widget is the root of your application.
   @override
@@ -89,10 +71,18 @@ class _MyAppState extends State<MyApp> {
               labelSmall: TextStyle(fontFamily: 'NotoSans'),
             ),
           ),
-          home: Helper.isLogged == true
-              ? const NavContainer()
-              : const SplashScreen(),
-          //const SplashScreen(),
+          home:FutureBuilder(
+            future: Helper.getUserLoggedInSharedPreference(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return  Container(); // Show container while waiting for future to complete
+              } else {
+                return Helper.isLogged == true
+                    ? const NavContainer()
+                    : const SplashScreen();
+              }
+            },
+          ),
         ),
       );
     });
