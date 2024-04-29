@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:seere/constants.dart';
 import 'package:seere/utils/login_helpper.dart';
 //import 'package:seere/constants.dart';
@@ -15,7 +16,7 @@ import 'views/home/cubit/data_cubit.dart';
 void main() async {
   Bloc.observer = SimpleBlocObserver();
 
-  runApp(const MyApp());
+  runApp(Phoenix(child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {

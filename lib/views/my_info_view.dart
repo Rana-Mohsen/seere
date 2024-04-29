@@ -1,16 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:seere/constants.dart';
 import 'package:seere/utils/login_helpper.dart';
 import 'package:seere/views/car_management_view.dart';
 import 'package:seere/views/registertion/login_package.dart';
 import 'package:seere/views/splash_screen.dart';
+import 'package:seere/widgets/custom_button.dart';
 import 'package:sizer/sizer.dart';
 
-class MyInfoView extends StatelessWidget {
+class MyInfoView extends StatefulWidget {
   const MyInfoView({super.key});
 
+  @override
+  State<MyInfoView> createState() => _MyInfoViewState();
+}
+
+class _MyInfoViewState extends State<MyInfoView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,11 +118,36 @@ class MyInfoView extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Helper.saveUserLoggedInSharedPreference(false);
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SplashScreen()));
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        surfaceTintColor: Colors.white,
+                        backgroundColor: Colors.white,
+                        title: const Text("Log Out!"),
+                        actionsOverflowButtonSpacing: 20,
+                        actions: [
+                          CustomButton(
+                            onPressed: () {
+                              Helper.saveUserLoggedInSharedPreference(false);
+                              Phoenix.rebirth(context);
+                            },
+                            title: "Continue",
+                            color: kPrimaryBlueColor,
+                            width: 35,
+                          ),
+                          CustomButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            title: "Back",
+                            color: kPrimaryBlueColor,
+                            width: 30,
+                          ),
+                        ],
+                        content:
+                            const Text("Are you sure you want to log out?"),
+                      ),
+                    );
                   },
                   child: Container(
                     width: double.maxFinite,
