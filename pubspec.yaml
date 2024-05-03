@@ -52,6 +52,8 @@ dependencies:
   fancy_bottom_navigation: ^0.3.3
   animations: ^2.0.11
   flutter_phoenix: ^1.1.1
+  flutter_svg: ^2.0.10+1
+  vector_graphics_compiler: ^1.1.11+1
 
 dev_dependencies:
   flutter_test:

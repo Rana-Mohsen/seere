@@ -4,7 +4,7 @@ import 'package:seere/views/app_center_view.dart';
 import 'package:seere/views/home/home_view.dart';
 import 'package:seere/views/my_info_view.dart';
 import 'package:animations/animations.dart';
-import '../nav_bar_icons.dart.dart';
+import '../nav_bar_icons.dart';
 
 class NavContainer extends StatefulWidget {
   const NavContainer({
@@ -37,10 +37,10 @@ class _NavContainerState extends State<NavContainer> {
       bottomNavigationBar: FancyBottomNavigation(
           tabs: [
             TabData(iconData: MyFlutterApp.home, title: "Home"),
-            TabData(
-                iconData: MyFlutterApp.app_center, title: "Application Center"),
-            TabData(iconData: MyFlutterApp.person, title: "My Info")
+            TabData(iconData: MyFlutterApp.menu, title: "Application Center"),
+            TabData(iconData: MyFlutterApp.user, title: "My Info")
           ],
+          inactiveIconColor: Colors.black54,
           onTabChangedListener: (index) {
             currentIndex = index;
             setState(() {});

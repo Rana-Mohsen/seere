@@ -6,13 +6,13 @@ class AppCenterView extends StatelessWidget {
   const AppCenterView({super.key});
 
   final List<Map<String, String>> _containerData = const [
-    {'name': "Component test", 'image': "assets/icons/comptest.png"},
-    {'name': "Live data", 'image': "assets/icons/livedata2.png"},
-    {'name': "Trouble scan", 'image': "assets/icons/troublescan2.png"},
-    {'name': "In-depth check", 'image': "assets/icons/in-depth.png"},
-    {'name': "Battery check", 'image': "assets/icons/battarycheck.png"},
-    {'name': "Performance test", 'image': "assets/icons/performancetest.png"},
-    {'name': "Trip management", 'image': "assets/icons/comptest.png"}
+    {'name': "Component test", 'image': "assets/icons/comp_test.svg"},
+    {'name': "Live data", 'image': "assets/icons/live_data2.svg"},
+    {'name': "Trouble scan", 'image': "assets/icons/trouble_scan2.svg"},
+    {'name': "In-depth check", 'image': "assets/icons/in_depth2.svg"},
+    {'name': "Battery check", 'image': "assets/icons/live_data2.svg"},
+    {'name': "Performance test", 'image': "assets/icons/live_data2.svg"},
+    {'name': "Trip management", 'image': "assets/icons/live_data2.svg"}
   ];
   @override
   Widget build(BuildContext context) {
@@ -36,6 +36,7 @@ class AppCenterView extends StatelessWidget {
           child: Column(
             children: [
               AppCenterContainer(
+                isSvg: false,
                 image: 'assets/images/center_car.png',
                 lable: "Iso car model 1570",
                 imgSize: 18,

@@ -2,11 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:seere/constants.dart';
 import 'package:seere/utils/login_helpper.dart';
 import 'package:seere/views/car_management_view.dart';
-import 'package:seere/views/registertion/login_package.dart';
-import 'package:seere/views/splash_screen.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,8 +26,8 @@ class _MyInfoViewState extends State<MyInfoView> {
           SizedBox(
             height: 25.h,
             width: double.maxFinite,
-            child: Image.asset(
-              'assets/images/info_app_bar.png',
+            child: SvgPicture.asset(
+              'assets/images/info_app_bar.svg',
               fit: BoxFit.cover,
             ),
           ),

@@ -5,7 +5,7 @@ import 'package:seere/widgets/custom_button.dart';
 import 'package:seere/widgets/home_container.dart';
 import 'package:seere/constants.dart';
 import 'package:sizer/sizer.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import '../connaect_device/connect_device_view.dart';
 import 'cubit/data_cubit.dart';
 
@@ -26,8 +26,8 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(
               height: 20.h,
               width: double.maxFinite,
-              child: Image.asset(
-                'assets/images/appbar.png',
+              child: SvgPicture.asset(
+                'assets/images/app_bar2.svg',
                 fit: BoxFit.cover,
               ),
             ),
@@ -67,7 +67,7 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         customIconButtom(
                           onPressed: () {},
-                          image: "assets/icons/trouble_scanning_icon.png",
+                          image: "assets/icons/trouble_scan.svg",
                           text: "Trouble Scanning",
                         ),
                         const Spacer(
@@ -75,15 +75,16 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         customIconButtom(
                           onPressed: () {},
-                          image: "assets/icons/trouble_scanning_icon.png",
+                          image: "assets/icons/in_depth.svg",
                           text: "In-depth check",
                         ),
                         const Spacer(
                           flex: 3,
                         ),
                         customIconButtom(
+                          isSvg: false,
                           onPressed: () {},
-                          image: "assets/icons/live_data.png",
+                          image: "assets/icons/cloud.png",
                           text: "Live data",
                         ),
                         SizedBox(
@@ -126,7 +127,8 @@ class _HomeViewState extends State<HomeView> {
                               data: requistedData['engineRPM'],
                               text1: "",
                               text2: "Engine RPM",
-                              text3: "Real-time engine RPM according to OBD data",
+                              text3:
+                                  "Real-time engine RPM according to OBD data",
                             ),
                           ],
                         );
@@ -144,7 +146,8 @@ class _HomeViewState extends State<HomeView> {
                               data: "N/A",
                               text1: "",
                               text2: "Engine RPM",
-                              text3: "Real-time engine RPM according to OBD data",
+                              text3:
+                                  "Real-time engine RPM according to OBD data",
                             ),
                           ],
                         );
@@ -172,7 +175,10 @@ class _HomeViewState extends State<HomeView> {
                     height: 15.h,
                     width: double.maxFinite,
                     decoration: boxDecoration(),
-                    child: Image.asset("assets/images/trip_data.png"),
+                    child: Image.asset(
+                      "assets/images/Data.png",
+                      scale: 1.4,
+                    ),
                   )
                 ],
               ),
@@ -186,7 +192,8 @@ class _HomeViewState extends State<HomeView> {
   Widget customIconButtom(
       {required void Function()? onPressed,
       required String image,
-      required String text}) {
+      required String text,
+      bool isSvg = true}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
       child: SizedBox(
@@ -194,10 +201,15 @@ class _HomeViewState extends State<HomeView> {
         children: [
           IconButton(
             onPressed: onPressed,
-            icon: Image.asset(
-              image,
-              height: 4.h,
-            ),
+            icon: isSvg
+                ? SvgPicture.asset(
+                    image,
+                    height: 4.h,
+                  )
+                : Image.asset(
+                    image,
+                    height: 4.h,
+                  ),
           ),
           Text(
             text,
