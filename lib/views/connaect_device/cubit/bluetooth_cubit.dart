@@ -48,6 +48,8 @@ class BluetoothCubit extends Cubit<BluetoothState> {
       device = devices[index];
       print("connected to bluetooth device.");
       obd2.setOnDataReceived((command, response, requestCode) {
+        print(response);
+
         updateData(response, dataCubit);
       });
       sendRequiests();
@@ -59,8 +61,6 @@ class BluetoothCubit extends Cubit<BluetoothState> {
 
   sendRequiests() async {
     while (send) {
-      print("loop");
-
       await Future.delayed(
           Duration(milliseconds: await obd2.getParamsFromJSON(paramJSON)),
           () {});
@@ -71,37 +71,41 @@ class BluetoothCubit extends Cubit<BluetoothState> {
     List<dynamic> responseData = json.decode(response);
     String resp;
     for (var data in responseData) {
-      resp = data["response"];
+       resp = data["response"];
+      if (resp == "0.0") {
+        continue;
+      }
       if (resp.contains('.')) {
         resp = double.parse(resp).toStringAsFixed(1);
       }
-      
-      String name = mapRespNameToRequistedData(data["title"]), value = resp + data["unit"];
+
+      String name = mapRespNameToRequistedData(data["title"]),
+          value = resp + data["unit"];
       dataCubit.updateDataBlue(name, value);
     }
     //print(requistedData);
   }
 
   String mapRespNameToRequistedData(String name) {
-  switch (name) {
-    case 'Engine Coolant Temp':
-      return 'engineCoolantTemp';
-    case 'Engine Load':
-      return 'engineLoad';
-    case 'Engine RPM':
-      return 'engineRPM';
-    case 'Air Intake Temp':
-      return 'airintakeTemp';
-    case 'Speed':
-      return 'speed';
-    case 'Short Term Fuel Bank':
-      return 'shortTermFuelBank1';
-    case 'Throttle Position':
-      return 'throttlePosition';
-    case 'Timing Advance':
-      return 'timingAdvance';
-  }
+    switch (name) {
+      case 'Engine Coolant Temp':
+        return 'engineCoolantTemp';
+      case 'Engine Load':
+        return 'engineLoad';
+      case 'Engine RPM':
+        return 'engineRPM';
+      case 'Air Intake Temp':
+        return 'airintakeTemp';
+      case 'Speed':
+        return 'speed';
+      case 'Short Term Fuel Bank':
+        return 'shortTermFuelBank1';
+      case 'Throttle Position':
+        return 'throttlePosition';
+      case 'Timing Advance':
+        return 'timingAdvance';
+    }
 
-  return "";
-}
+    return "";
+  }
 }

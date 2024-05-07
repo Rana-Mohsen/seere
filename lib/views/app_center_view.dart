@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:seere/views/live_data_view.dart';
 import 'package:seere/widgets/app_center_container.dart';
 import 'package:sizer/sizer.dart';
 
 class AppCenterView extends StatelessWidget {
   const AppCenterView({super.key});
 
-  final List<Map<String, String>> _containerData = const [
-    {'name': "Component test", 'image': "assets/icons/comp_test.svg"},
-    {'name': "Live data", 'image': "assets/icons/live_data2.svg"},
-    {'name': "Trouble scan", 'image': "assets/icons/trouble_scan2.svg"},
-    {'name': "In-depth check", 'image': "assets/icons/in_depth2.svg"},
-    {'name': "Battery check", 'image': "assets/icons/live_data2.svg"},
-    {'name': "Performance test", 'image': "assets/icons/live_data2.svg"},
-    {'name': "Trip management", 'image': "assets/icons/live_data2.svg"}
+  final List<Map<String, dynamic>> _containerData = const [
+    {'name': "Component test", 'image': "assets/icons/comp_test.svg","rout":LiveData()},
+    {'name': "Live data", 'image': "assets/icons/live_data2.svg","rout":LiveData()},
+    {'name': "Trouble scan", 'image': "assets/icons/trouble_scan2.svg","rout":LiveData()},
+    {'name': "In-depth check", 'image': "assets/icons/in_depth2.svg","rout":LiveData()},
+    {'name': "Battery check", 'image': "assets/icons/live_data2.svg","rout":LiveData()},
   ];
   @override
   Widget build(BuildContext context) {
@@ -36,6 +35,7 @@ class AppCenterView extends StatelessWidget {
           child: Column(
             children: [
               AppCenterContainer(
+                isTap: false,
                 isSvg: false,
                 image: 'assets/images/center_car.png',
                 lable: "Iso car model 1570",
@@ -72,6 +72,7 @@ class AppCenterView extends StatelessWidget {
                   itemCount: _containerData.length,
                   itemBuilder: (context, index) {
                     return AppCenterContainer(
+                      rout: _containerData[index]['rout']!,
                       image: _containerData[index]['image']!,
                       lable: _containerData[index]['name']!,
                       imgSize: 8,

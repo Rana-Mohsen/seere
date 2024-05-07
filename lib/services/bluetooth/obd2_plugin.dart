@@ -205,7 +205,7 @@ class Obd2Plugin {
     }
     _write(stm[lastIndex]["PID"], requestCode);
     if (!configed) {
-      Future.delayed(const Duration(milliseconds: 250), () {
+      Future.delayed(const Duration(milliseconds: 350), () {
         getParamsFromJSON(jsonString, lastIndex: (lastIndex + 1));
       });
     }
