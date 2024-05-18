@@ -381,15 +381,15 @@ class Obd2Plugin {
                   .replaceAll("\r", "")
                   .replaceAll(">", "")
                   .replaceAll("SEARCHING...", "");
-              if (validResponse.contains(
-                      runningService["unit"].toString().toUpperCase()) ||
-                  validResponse.contains(
-                      runningService["unit"].toString().toLowerCase())) {
-                validResponse = validResponse.replaceAll(
-                    runningService["unit"].toString().toUpperCase(), "");
-                validResponse = validResponse.replaceAll(
-                    runningService["unit"].toString().toLowerCase(), "");
-              }
+              // if (validResponse.contains(
+              //         runningService["unit"].toString().toUpperCase()) ||
+              //     validResponse.contains(
+              //         runningService["unit"].toString().toLowerCase())) {
+              //   validResponse = validResponse.replaceAll(
+              //       runningService["unit"].toString().toUpperCase(), "");
+              //   validResponse = validResponse.replaceAll(
+              //       runningService["unit"].toString().toLowerCase(), "");
+              // }
               if (runningService["description"].toString().contains(", ")) {
                 List<String> bytes = _calculateParameterFrames(
                     runningService["PID"], validResponse.toString());

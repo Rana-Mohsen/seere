@@ -80,7 +80,7 @@ class BluetoothCubit extends Cubit<BluetoothState> {
       }
 
       String name = mapRespNameToRequistedData(data["title"]),
-          value = resp + data["unit"];
+          value = resp; //+ data["unit"]
       dataCubit.updateDataBlue(name, value);
     }
     //print(requistedData);
