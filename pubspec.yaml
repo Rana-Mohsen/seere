@@ -54,13 +54,13 @@ dependencies:
   flutter_phoenix: ^1.1.1
   flutter_svg: ^2.0.10+1
   vector_graphics_compiler: ^1.1.11+1
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   lint: ^2.1.2
   flutter_lints: ^3.0.0
-  flutter_launcher_icons: ^0.13.1
 
 flutter_launcher_icons:
     android: true
