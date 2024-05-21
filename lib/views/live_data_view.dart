@@ -19,6 +19,7 @@ class _LiveDataState extends State<LiveData> {
         centerTitle: true,
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,9 +36,6 @@ class _LiveDataState extends State<LiveData> {
               SvgPicture.asset("assets/images/live_data_car.svg"),
             ],
           ),
-          Row(
-            children: [],
-          )
         ],
       ),
     );
