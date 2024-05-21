@@ -12,7 +12,7 @@ class ApiService {
       );
       return response;
     } catch (error) {
-      throw Exception('Login failed: $error');
+      throw Exception('Try again');
     }
   }
 
@@ -31,7 +31,7 @@ class ApiService {
       );
       return response;
     } catch (error) {
-      throw Exception('SignUp failed: $error');
+      throw Exception('Try again');
     }
   }
 }

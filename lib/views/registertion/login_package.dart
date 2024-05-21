@@ -4,6 +4,7 @@ import 'package:seere/constants.dart';
 import 'package:seere/utils/login_helpper.dart';
 import 'package:seere/views/nav_container.dart';
 import 'package:seere/views/registertion/apiData.dart';
+import 'package:seere/views/registertion/storeToken.dart';
 
 const users = {
   'shereengalal60@gmail.com': '12345',
@@ -19,16 +20,18 @@ class LoginScreen extends StatelessWidget {
     String password = data.password;
 
     try {
-      // Use dio (recommended):
       final response = await ApiService().loginUser(username, password, true);
       if (response.statusCode == 200) {
-        // Handle successful login (e.g., parse token, store in secure storage)
-        return null; // Login successful
+        final String token = response.data['token'];
+
+        await setAccessToken(token);
+        print("----------token: $token --------------");
+        return null;
       } else {
-        return 'User not exists'; // Or handle errors
+        return 'User not exists';
       }
     } catch (err) {
-      return 'Login error: $err';
+      return 'Try again';
     }
   }
 
@@ -51,17 +54,15 @@ class LoginScreen extends StatelessWidget {
       final response =
           await ApiService().signupUser(email, password, password, username!);
       if (response.statusCode == 200) {
-        // Handle successful login (e.g., parse token, store in secure storage)
-
         print(confirmPassword);
         print('///////////////////');
 
-        return null; // signUp successful
+        return null;
       }
     } catch (err) {
       print(confirmPassword);
       print('////////////////////////////');
-      return 'signUp error: $err';
+      return 'Try again';
     }
     return null;
   }
