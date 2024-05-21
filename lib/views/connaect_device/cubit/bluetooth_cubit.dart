@@ -52,17 +52,17 @@ class BluetoothCubit extends Cubit<BluetoothState> {
 
         updateData(response, dataCubit);
       });
-      sendRequiests();
+      sendRequiests(paramJSON);
       emit(BluetoothOn());
     }, (message) {
       print("error in connecting: $message");
     });
   }
 
-  sendRequiests() async {
+  sendRequiests(parameters) async {
     while (send) {
       await Future.delayed(
-          Duration(milliseconds: await obd2.getParamsFromJSON(paramJSON)),
+          Duration(milliseconds: await obd2.getParamsFromJSON(parameters)),
           () {});
     }
   }
