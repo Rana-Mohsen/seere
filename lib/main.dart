@@ -71,18 +71,19 @@ class MyApp extends StatelessWidget {
               labelSmall: TextStyle(fontFamily: 'NotoSans'),
             ),
           ),
-          home:FutureBuilder(
-            future: Helper.getUserLoggedInSharedPreference(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return  Container(); // Show container while waiting for future to complete
-              } else {
-                return Helper.isLogged == true
-                    ? const NavContainer()
-                    : const SplashScreen();
-              }
-            },
-          ),
+          home: const SplashScreen()
+          // FutureBuilder(
+          //   future: Helper.getUserLoggedInSharedPreference(),
+          //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return  Container(); // Show container while waiting for future to complete
+          //     } else {
+          //       return Helper.isLogged == true
+          //           ? const NavContainer()
+          //           : const SplashScreen();
+          //     }
+          //   },
+          // ),
         ),
       );
     });
