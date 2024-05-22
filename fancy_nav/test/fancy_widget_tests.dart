@@ -1,6 +1,7 @@
-import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../lib/fancy_bottom_navigation.dart';
 
 void main() {
   Widget makeTestableWidget({required Widget child}) {

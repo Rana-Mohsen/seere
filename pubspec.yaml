@@ -49,20 +49,21 @@ dependencies:
   flutter_onboarding_slider: ^1.0.11
   another_flutter_splash_screen: ^1.2.0
   flutter_login: ^5.0.0
-  fancy_bottom_navigation:
-    path: fancy_bottom_navigation
   animations: ^2.0.11
   flutter_phoenix: ^1.1.1
   flutter_svg: ^2.0.10+1
   vector_graphics_compiler: ^1.1.11+1
   flutter_launcher_icons: ^0.13.1
   flutter_secure_storage: ^9.2.1
+  fancy_nav:
+    path: ./fancy_nav
+  mockito: ^5.4.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   lint: ^2.1.2
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 flutter_launcher_icons:
     android: true

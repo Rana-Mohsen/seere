@@ -1,9 +1,9 @@
 library fancy_bottom_navigation;
-
-import 'package:fancy_bottom_navigation/internal/tab_item.dart';
-import 'package:fancy_bottom_navigation/paint/half_clipper.dart';
-import 'package:fancy_bottom_navigation/paint/half_painter.dart';
 import 'package:flutter/material.dart';
+
+import 'internal/tab_item.dart';
+import 'paint/half_clipper.dart';
+import 'paint/half_painter.dart';
 
 const double CIRCLE_SIZE = 45;//50
 const double ARC_HEIGHT = 60;//70 

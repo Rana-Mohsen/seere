@@ -1,4 +1,4 @@
-import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
+import 'package:fancy_nav/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:seere/views/app_center_view.dart';
 import 'package:seere/views/home/home_view.dart';
