@@ -35,6 +35,8 @@ class _NavContainerState extends State<NavContainer> {
         child: pages[currentIndex],
       ),
       bottomNavigationBar: FancyBottomNavigation(
+        
+
           tabs: [
             TabData(iconData: MyFlutterApp.home, title: "Home"),
             TabData(iconData: MyFlutterApp.menu, title: "Application Center"),

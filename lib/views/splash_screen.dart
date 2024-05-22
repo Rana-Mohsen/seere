@@ -15,21 +15,24 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return FlutterSplashScreen.fadeIn(
-        backgroundColor: Colors.white,
-        onInit: () {
-          debugPrint("On Init");
-        },
-        onEnd: () {
-          debugPrint("On End");
-        },
-        childWidget: SizedBox(
-          height: 300,
-          width: 400,
-          child: Image.asset("assets/images/splash.png"),
+      backgroundColor: Colors.white,
+      onInit: () {
+        debugPrint("On Init");
+      },
+      onEnd: () {
+        debugPrint("On End");
+      },
+      childWidget: SizedBox(
+        height: 400,
+        width: 400,
+        child: Image.asset(
+          "assets/images/splash.png",
+          fit: BoxFit.cover,
         ),
-        onAnimationEnd: () => debugPrint("On Fade In End"),
-        nextScreen: const onBoarding(),
-        duration: const Duration(milliseconds: 3000),
-      );
+      ),
+      onAnimationEnd: () => debugPrint("On Fade In End"),
+      nextScreen: const onBoarding(),
+      duration: const Duration(milliseconds: 3000),
+    );
   }
 }
