@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
       onAnimationEnd: () => debugPrint("On Fade In End"),
       nextScreen: Helper.isLogged == true
                     ? const NavContainer()
-                    : const onBoarding(),
+                    : const OnBoarding(),
       duration: const Duration(milliseconds: 5000),
     );
   }

@@ -55,9 +55,6 @@ dependencies:
   vector_graphics_compiler: ^1.1.11+1
   flutter_launcher_icons: ^0.13.1
   flutter_secure_storage: ^9.2.1
-  fancy_nav:
-    path: ./fancy_nav
-  mockito: ^5.4.4
 
 dev_dependencies:
   flutter_test:

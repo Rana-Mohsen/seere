@@ -1,166 +1,125 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
+import 'package:seere/models/buildIntroPage.dart';
 import 'package:seere/views/registertion/login_package.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class onBoarding extends StatelessWidget {
-  final Color kDarkBlueColor = const Color(0xFF235DFF);
 
-  const onBoarding({super.key});
+class OnBoarding extends StatefulWidget {
+  const OnBoarding({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _OnBoardingState();
+}
+
+class _OnBoardingState extends State<OnBoarding> {
+  String urlImage = '';
+  String title = '';
+  String subtitle = '';
+  final controller = PageController();
+  bool isLastPage = false;
 
   @override
   Widget build(BuildContext context) {
-    return OnBoardingSlider(
-      finishButtonText: 'Register',
-      onFinish: () {
-        Navigator.push(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => const LoginScreen(),
-          ),
-        );
-      },
-      finishButtonStyle: FinishButtonStyle(
-        backgroundColor: Color(0xFF235DFF),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-      ),
-      skipTextButton: Text(
-        'Skip',
-        style: TextStyle(
-          fontSize: 16,
-          color: kDarkBlueColor,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-      controllerColor: kDarkBlueColor,
-      totalPage: 3,
-      headerBackgroundColor: Colors.transparent,
-      pageBackgroundColor: Colors.white,
-      centerBackground: true,
-      background: [
-        Container(
-          height: 800,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Stack(children: [
+        Positioned.fill(
           child: Image.asset(
             'assets/images/onboarding.png',
             fit: BoxFit.cover,
           ),
         ),
-        Container(
-          height: 550,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-          child: Image.asset(
-            'assets/images/onboarding2.jpg',
-            fit: BoxFit.fill,
-          ),
+        PageView(
+          controller: controller,
+          onPageChanged: (index) {
+            setState(() => isLastPage = index == 2);
+          },
+          children: const [
+            BuildPage(
+              urlImage: 'assets/images/onboarding.png',
+              title: 'Welcome To',
+              subtitle: 'SeerE',
+            ),
+            BuildPage(
+              urlImage: 'assets/images/onboarding.png',
+              title: 'Staying safe is important to us.',
+              subtitle: '',
+            ),
+            BuildPage(
+              urlImage: 'assets/images/onboarding.png',
+              title: "We'll keep your car running ;)",
+              subtitle: '',
+            ),
+          ],
         ),
-        Container(
-          height: 800,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-          child: Image.asset(
-            'assets/images/onboarding.png',
-            fit: BoxFit.cover,
-          ),
-        ),
-      ],
-      speed: 1.8,
-      pageBodies: [
-        Container(
-          alignment: Alignment.topLeft,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-          child: const Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Welcome To',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 32.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                'SeerE',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 50.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(
-                height: 480,
-              ),
-              Text(
-                'You’ve reached your destination.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: kDarkBlueColor,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Staying safe on the road is our goal.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black26,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(
-                height: 480,
-              ),
-              Text(
-                'Start now!',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  color: kDarkBlueColor,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+        Positioned(
+            bottom: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: isLastPage
+                ? TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color(0xFF235DFF),
+                      // minimumSize: const Size.fromWidth(300),
+                      maximumSize: const Size.fromHeight(60),
+                    ),
+                    onPressed: () async {
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.setBool('showChoose', true);
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                      );
+                    },
+                    child: const Text(
+                      'Register',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                : Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    height: 80,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //skip
+                        TextButton(
+                            onPressed: () => controller.jumpToPage(2),
+                            child: const Text(
+                              'SKIP',
+                              style: TextStyle(
+                                  color: Color(0xFF235DFF),
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                        //dots
+                        Center(
+                          child: SmoothPageIndicator(
+                            controller: controller,
+                            count: 3,
+                            effect: const WormEffect(
+                              spacing: 20,
+                              dotColor: Colors.black26,
+                              activeDotColor: Color(0xFF235DFF),
+                            ),
+                            //to click on dots and move
+                            onDotClicked: (index) => controller.animateToPage(
+                              index,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.ease,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ))
+      ]),
     );
   }
 }
