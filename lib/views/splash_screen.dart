@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
       onAnimationEnd: () => debugPrint("On Fade In End"),
-      nextScreen: const onBoarding(),
+      nextScreen: const OnBoarding(),
       duration: const Duration(milliseconds: 5000),
     );
   }
