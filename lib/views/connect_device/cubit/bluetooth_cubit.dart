@@ -48,7 +48,7 @@ class BluetoothCubit extends Cubit<BluetoothState> {
       device = devices[index];
       print("connected to bluetooth device.");
       obd2.setOnDataReceived((command, response, requestCode) {
-        print(response);
+        //print(response);
 
         updateData(response, dataCubit);
       });

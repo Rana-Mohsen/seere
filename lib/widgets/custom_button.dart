@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../views/connaect_device/connect_device_view.dart';
+import '../views/connect_device/connect_device_view.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton(

@@ -14,16 +14,16 @@ Map<String, dynamic> requistData = {
   "timingAdvance": "01 0E",
 };
 
- Map<String, dynamic> requistedData = {
-    "engineCoolantTemp": "",
-    "engineLoad": "",
-    "engineRPM": "",
-    "airintakeTemp": "",
-    "speed": "",
-    "shortTermFuelBank1": "",
-    "throttlePosition": "",
-    "timingAdvance": "",
-  };
+Map<String, dynamic> requistedData = {
+  "engineCoolantTemp": "0",
+  "engineLoad": "0",
+  "engineRPM": "0",
+  "airintakeTemp": "0",
+  "speed": "0",
+  "shortTermFuelBank1": "0",
+  "throttlePosition": "0",
+  "timingAdvance": "0",
+};
 
 String paramJSON = '''
     [
@@ -69,4 +69,3 @@ String paramJSON = '''
     }
 ]
   ''';
-

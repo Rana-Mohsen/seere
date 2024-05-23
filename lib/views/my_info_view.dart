@@ -123,7 +123,7 @@ class _MyInfoViewState extends State<MyInfoView> {
                         surfaceTintColor: Colors.white,
                         backgroundColor: Colors.white,
                         title: const Text("Log Out!"),
-                        actionsOverflowButtonSpacing: 20,
+                        actionsOverflowButtonSpacing: 10,
                         actions: [
                           CustomButton(
                             onPressed: () {
@@ -132,7 +132,7 @@ class _MyInfoViewState extends State<MyInfoView> {
                             },
                             title: "Continue",
                             color: kPrimaryBlueColor,
-                            width: 35,
+                            width: 32,
                           ),
                           CustomButton(
                             onPressed: () {
@@ -140,7 +140,7 @@ class _MyInfoViewState extends State<MyInfoView> {
                             },
                             title: "Back",
                             color: kPrimaryBlueColor,
-                            width: 30,
+                            width: 25,
                           ),
                         ],
                         content:

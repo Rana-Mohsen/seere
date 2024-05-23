@@ -32,9 +32,21 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
       onAnimationEnd: () => debugPrint("On Fade In End"),
-      nextScreen: Helper.isLogged == true
-                    ? const NavContainer()
-                    : const OnBoarding(),
+      nextScreen: FutureBuilder(
+        future: Helper.getUserLoggedInSharedPreference(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container(); // Show container while waiting for future to complete
+          } else {
+            return Helper.isLogged == true
+                ? const NavContainer()
+                : const OnBoarding();
+          }
+        },
+      ),
+      //  Helper.isLogged == true
+      //               ? const NavContainer()
+      //               : const OnBoarding(),
       duration: const Duration(milliseconds: 5000),
     );
   }

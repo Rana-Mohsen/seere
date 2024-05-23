@@ -6,7 +6,7 @@ import 'package:seere/widgets/home_container.dart';
 import 'package:seere/constants.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../connaect_device/connect_device_view.dart';
+import '../connect_device/connect_device_view.dart';
 import 'cubit/data_cubit.dart';
 
 class HomeView extends StatefulWidget {
