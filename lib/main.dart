@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:seere/constants.dart';
-import 'package:seere/utils/login_helpper.dart';
+import 'package:seere/utils/login_helper.dart';
 //import 'package:seere/constants.dart';
 import 'package:seere/views/connect_device/cubit/bluetooth_cubit.dart';
 import 'package:seere/views/connect_device/cubit/connect_device_cubit.dart';

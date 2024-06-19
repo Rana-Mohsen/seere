@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seere/constants.dart';
 import 'package:seere/utils/initialize_car_data.dart';
+import 'package:seere/views/connect_device/cubit/bluetooth_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 import 'home/cubit/data_cubit.dart';
@@ -75,64 +76,76 @@ class _LiveDataState extends State<LiveData> {
           BlocBuilder<DataCubit, DataState>(
             builder: (context, state) {
               if (state is BlueData || state is WifiData) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        dataContainer(
-                          data: requistedData["speed"],
-                          unit: "km/h",
-                          icon: "assets/icons/live_data_current_speed.svg",
-                          name: "Current speed",
-                        ),
-                        dataContainer(
-                          data: requistedData["engineRPM"],
-                          unit: "RPM",
-                          icon: "assets/icons/live_data_battery.svg",
-                          name: "Engine rpm",
-                        ),
-                        dataContainer(
-                          data: requistedData["engineCoolantTemp"],
-                          unit: "°C",
-                          icon: "assets/icons/live_data_coolant.svg",
-                          name: "Engine coolant temp",
-                        ),
-                        dataContainer(
-                          data: requistedData["shortTermFuelBank1"] ?? "0",
-                          unit: "%",
-                          icon: "assets/icons/live_data_fuel.svg",
-                          name: "Short term fuel bank1",
-                        ),
-                        dataContainer(
-                          data: requistedData["engineLoad"],
-                          unit: "%",
-                          icon: "assets/icons/live_data_load.svg",
-                          name: "Engine load",
-                        ),
-                        dataContainer(
-                          data: requistedData["throttlePosition"],
-                          unit: "%",
-                          icon: "assets/icons/live_data_baseline-speed.svg",
-                          name: "Throttle position",
-                        ),
-                        dataContainer(
-                          data: requistedData["airintakeTemp"],
-                          unit: "°C",
-                          icon: "assets/icons/live_data_temperature.svg",
-                          name: "Airintake temp",
-                        ),
-                        dataContainer(
-                          data: requistedData["timingAdvance"],
-                          unit: "°",
-                          icon: "assets/icons/live_data_pressure.svg",
-                          name: "Timing advance",
-                        ),
-                      ],
-                    ),
-                    SvgPicture.asset("assets/images/live_data_car.svg"),
-                  ],
+                return FutureBuilder(
+                  future: Future.delayed(const Duration(seconds: 10)),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Text("Reading real-time live data...");
+                    } else {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              dataContainer(
+                                data: requistedData["speed"],
+                                unit: "km/h",
+                                icon:
+                                    "assets/icons/live_data_current_speed.svg",
+                                name: "Current speed",
+                              ),
+                              dataContainer(
+                                data: requistedData["engineRPM"],
+                                unit: "RPM",
+                                icon: "assets/icons/live_data_battery.svg",
+                                name: "Engine rpm",
+                              ),
+                              dataContainer(
+                                data: requistedData["engineCoolantTemp"],
+                                unit: "°C",
+                                icon: "assets/icons/live_data_coolant.svg",
+                                name: "Engine coolant temp",
+                              ),
+                              dataContainer(
+                                data:
+                                    requistedData["shortTermFuelBank1"] ?? "0",
+                                unit: "%",
+                                icon: "assets/icons/live_data_fuel.svg",
+                                name: "Short term fuel bank1",
+                              ),
+                              dataContainer(
+                                data: requistedData["engineLoad"],
+                                unit: "%",
+                                icon: "assets/icons/live_data_load.svg",
+                                name: "Engine load",
+                              ),
+                              dataContainer(
+                                data: requistedData["throttlePosition"],
+                                unit: "%",
+                                icon:
+                                    "assets/icons/live_data_baseline-speed.svg",
+                                name: "Throttle position",
+                              ),
+                              dataContainer(
+                                data: requistedData["airintakeTemp"],
+                                unit: "°C",
+                                icon: "assets/icons/live_data_temperature.svg",
+                                name: "Airintake temp",
+                              ),
+                              dataContainer(
+                                data: requistedData["timingAdvance"],
+                                unit: "°",
+                                icon: "assets/icons/live_data_pressure.svg",
+                                name: "Timing advance",
+                              ),
+                            ],
+                          ),
+                          SvgPicture.asset("assets/images/live_data_car.svg"),
+                        ],
+                      );
+                    }
+                  },
                 );
               } else {
                 return const Center(

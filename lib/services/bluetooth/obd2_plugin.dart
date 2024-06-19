@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:math_expressions/math_expressions.dart';
@@ -158,16 +159,21 @@ class Obd2Plugin {
       BluetoothDevice _device,
       Function(BluetoothConnection? connection) onConnected,
       Function(String message) onError) async {
-    if (connection != null) {
-      await onConnected(connection);
-      return;
-    }
-    connection = await BluetoothConnection.toAddress(_device.address);
-    if (connection != null) {
-      await onConnected(connection);
-    } else {
-      throw Exception(
-          "Sorry this happened. But I can not connect to the device. But I guess the device is not nearby or you have not disconnected before. Finally, if you wants to enter into a new relationship, you must end his previous relationship");
+    try {
+      if (connection != null) {
+        await onConnected(connection);
+        return;
+      }
+      connection = await BluetoothConnection.toAddress(_device.address);
+      if (connection != null) {
+        await onConnected(connection);
+      } else {
+        throw Exception(
+            "Sorry this happened. But I can not connect to the device. But I guess the device is not nearby or you have not disconnected before. Finally, if you wants to enter into a new relationship, you must end his previous relationship");
+      }
+    } on PlatformException {
+      disconnect();
+      debugPrint("connection problem");
     }
   }
 

@@ -18,8 +18,9 @@ class Bluetooth extends StatefulWidget {
 }
 
 class _BluetoothState extends State<Bluetooth> {
-  final obd2 = Obd2Plugin();
+  //final obd2 = Obd2Plugin();
   //List<BluetoothDevice>? devices;
+
   @override
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<BluetoothCubit>(context);
@@ -61,7 +62,7 @@ class _BluetoothState extends State<Bluetooth> {
           },
           builder: (context, state) {
             if (state is WaitingForDevices) {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
             if (state is BluetoothOn) {
               return Row(

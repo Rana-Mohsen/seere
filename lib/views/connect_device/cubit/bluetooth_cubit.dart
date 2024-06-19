@@ -48,11 +48,11 @@ class BluetoothCubit extends Cubit<BluetoothState> {
       device = devices[index];
       print("connected to bluetooth device.");
       obd2.setOnDataReceived((command, response, requestCode) {
-        //print(response);
+        print("==>> $response");
 
         updateData(response, dataCubit);
       });
-      sendRequiests(paramJSON);
+      sendRequiests(dtcJSON);
       emit(BluetoothOn());
     }, (message) {
       print("error in connecting: $message");
@@ -60,9 +60,14 @@ class BluetoothCubit extends Cubit<BluetoothState> {
   }
 
   sendRequiests(parameters) async {
+    // while (send) {
+    //   await Future.delayed(
+    //       Duration(milliseconds: await obd2.getParamsFromJSON(parameters)),
+    //       () {});
+    // }
     while (send) {
       await Future.delayed(
-          Duration(milliseconds: await obd2.getParamsFromJSON(parameters)),
+          Duration(milliseconds: await obd2.getDTCFromJSON(parameters)),
           () {});
     }
   }

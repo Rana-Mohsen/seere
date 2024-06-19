@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seere/views/intro_screen.dart';
 import 'package:seere/views/nav_container.dart';
 
-import '../utils/login_helpper.dart';
+import '../utils/login_helper.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
