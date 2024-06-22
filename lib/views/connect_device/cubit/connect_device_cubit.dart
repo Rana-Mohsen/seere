@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:seere/services/socket.dart';
 
 part 'connect_device_state.dart';
 

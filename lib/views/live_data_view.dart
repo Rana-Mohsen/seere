@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seere/constants.dart';
 import 'package:seere/utils/initialize_car_data.dart';
-import 'package:seere/views/connect_device/cubit/bluetooth_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 import 'home/cubit/data_cubit.dart';
@@ -80,7 +78,7 @@ class _LiveDataState extends State<LiveData> {
                   future: Future.delayed(const Duration(seconds: 10)),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Text("Reading real-time live data...");
+                      return const Center(child: Text("Reading real-time live data..."));
                     } else {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -169,14 +167,14 @@ class _LiveDataState extends State<LiveData> {
   Widget dataContainer(
       {required data, required unit, required icon, required name}) {
     return Container(
-      padding: EdgeInsets.all(24),
+      padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           RichText(
             text: TextSpan(
               style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+                  const TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
               children: [
                 TextSpan(text: data, style: TextStyle(fontSize: 16.sp)),
                 TextSpan(

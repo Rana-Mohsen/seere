@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/utils/initialize_car_data.dart';
+import 'package:seere/views/trouble_scan.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:seere/widgets/home_container.dart';
 import 'package:seere/constants.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../connect_device/connect_device_view.dart';
+import '../live_data_view.dart';
 import 'cubit/data_cubit.dart';
 
 class HomeView extends StatefulWidget {
@@ -66,7 +68,12 @@ class _HomeViewState extends State<HomeView> {
                           width: 2.w,
                         ),
                         customIconButtom(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const TroubleScan()));
+                          },
                           image: "assets/icons/trouble_scan.svg",
                           text: "Trouble Scanning",
                         ),
@@ -83,7 +90,12 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         customIconButtom(
                           isSvg: false,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LiveData()));
+                          },
                           image: "assets/icons/cloud.png",
                           text: "Live data",
                         ),

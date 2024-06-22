@@ -7,7 +7,6 @@ import 'package:meta/meta.dart';
 import 'package:seere/views/home/cubit/data_cubit.dart';
 
 import '../../../services/bluetooth/obd2_plugin.dart';
-import '../../../utils/initialize_car_data.dart';
 
 part 'bluetooth_state.dart';
 
@@ -18,6 +17,8 @@ class BluetoothCubit extends Cubit<BluetoothState> {
   List<BluetoothDevice> devices = [];
   BluetoothDevice? device;
   bool send = true;
+  
+ 
 
   bluetoothButton() async {
     if (!buttonOn) {
@@ -47,13 +48,13 @@ class BluetoothCubit extends Cubit<BluetoothState> {
     obd2.getConnection(devices[index], (connection) {
       device = devices[index];
       print("connected to bluetooth device.");
-      obd2.setOnDataReceived((command, response, requestCode) {
-        print("==>> $response");
+      // obd2.setOnDataReceived((command, response, requestCode) {
+      //   print("==>> $response");
 
-        updateData(response, dataCubit);
-      });
-      sendRequiests(dtcJSON);
-      emit(BluetoothOn());
+      //   //updateData(response, dataCubit);
+      // });
+      // sendRequiests(dtcJSON);
+      emit(BluetoothOn()); 
     }, (message) {
       print("error in connecting: $message");
     });
@@ -65,18 +66,19 @@ class BluetoothCubit extends Cubit<BluetoothState> {
     //       Duration(milliseconds: await obd2.getParamsFromJSON(parameters)),
     //       () {});
     // }
-    while (send) {
-      await Future.delayed(
-          Duration(milliseconds: await obd2.getDTCFromJSON(parameters)),
-          () {});
-    }
+    // int i = 3;
+    // while (i < 0) {
+    //   await Future.delayed(
+    //       Duration(milliseconds: await obd2.getDTCFromJSON(parameters)), () {});
+    //   i--;
+    // }
   }
 
   updateData(response, DataCubit dataCubit) {
     List<dynamic> responseData = json.decode(response);
     String resp;
     for (var data in responseData) {
-       resp = data["response"];
+      resp = data["response"];
       if (resp == "0.0") {
         continue;
       }

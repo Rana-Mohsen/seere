@@ -6,7 +6,6 @@ import 'package:seere/constants.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../services/bluetooth/obd2_plugin.dart';
 import '../home/cubit/data_cubit.dart';
 import 'cubit/bluetooth_cubit.dart';
 

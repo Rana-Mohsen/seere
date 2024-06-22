@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../constants.dart';
-import '../../models/car_data.dart';
 import '../../services/socket.dart';
 import '../../utils/validators.dart';
 import '../../widgets/custom_button.dart';

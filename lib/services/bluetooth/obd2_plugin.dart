@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -156,7 +155,7 @@ class Obd2Plugin {
   }
 
   Future<void> getConnection(
-      BluetoothDevice _device,
+      BluetoothDevice device,
       Function(BluetoothConnection? connection) onConnected,
       Function(String message) onError) async {
     try {
@@ -164,7 +163,7 @@ class Obd2Plugin {
         await onConnected(connection);
         return;
       }
-      connection = await BluetoothConnection.toAddress(_device.address);
+      connection = await BluetoothConnection.toAddress(device.address);
       if (connection != null) {
         await onConnected(connection);
       } else {
@@ -295,20 +294,20 @@ class Obd2Plugin {
     return (stm.length * 150 + 1500);
   }
 
-  Future<bool> pairWithDevice(BluetoothDevice _device) async {
+  Future<bool> pairWithDevice(BluetoothDevice device) async {
     bool paired = false;
-    bool? isPaired = await _bluetooth.bondDeviceAtAddress(_device.address);
+    bool? isPaired = await _bluetooth.bondDeviceAtAddress(device.address);
     if (isPaired != null) {
       paired = isPaired;
     }
     return paired;
   }
 
-  Future<bool> unpairWithDevice(BluetoothDevice _device) async {
+  Future<bool> unpairWithDevice(BluetoothDevice device) async {
     bool unpaired = false;
     try {
       bool? isUnpaired =
-          await _bluetooth.removeDeviceBondWithAddress(_device.address);
+          await _bluetooth.removeDeviceBondWithAddress(device.address);
       if (isUnpaired != null) {
         unpaired = isUnpaired;
       }
@@ -318,9 +317,9 @@ class Obd2Plugin {
     return unpaired;
   }
 
-  Future<bool> isPaired(BluetoothDevice _device) async {
+  Future<bool> isPaired(BluetoothDevice device) async {
     BluetoothBondState state =
-        await _bluetooth.getBondStateForAddress(_device.address);
+        await _bluetooth.getBondStateForAddress(device.address);
     return state.isBonded;
   }
 
@@ -335,14 +334,14 @@ class Obd2Plugin {
     await connection?.output.allSent;
   }
 
-  double _volEff = 0.8322;
+  final double _volEff = 0.8322;
   double _fTime(x) => x / 1000;
   double _fRpmToRps(x) => x / 60;
   double _fMbarToKpa(x) => x / 1000 * 100;
   double _fCelciusToLelvin(x) => x + 273.15;
   double _fImap(rpm, pressMbar, tempC) {
-    double _v = (_fMbarToKpa(pressMbar) / _fCelciusToLelvin(tempC) / 2);
-    return _fRpmToRps(rpm) * _v;
+    double v = (_fMbarToKpa(pressMbar) / _fCelciusToLelvin(tempC) / 2);
+    return _fRpmToRps(rpm) * v;
   }
 
   double fMaf(rpm, pressMbar, tempC) {
@@ -370,6 +369,7 @@ class Obd2Plugin {
       connection?.input?.listen((Uint8List data) {
         Uint8List bytes = Uint8List.fromList(data.toList());
         String string = String.fromCharCodes(bytes);
+        print("***$string");
         if (!string.contains('>')) {
           response += string;
         } else {
@@ -490,7 +490,7 @@ class Obd2Plugin {
   List<String> _getDtcsFrom(String value,
       {required String limit, required String command}) {
     String result = "";
-    List<String> _dtcCodes = [];
+    List<String> dtcCodes = [];
     if (!value.contains(limit)) {
       List<String> dtcBytes = _calculateDtcFrames(command, value);
       if (dtcBytes.length < 6) {
@@ -512,17 +512,17 @@ class Obd2Plugin {
             result += _initialDTC(binary.substring(4, 8));
             result += _initialDTC(binary.substring(8, 12));
             result += _initialDTC(binary.substring(12, binary.length));
-            if (result != "P0000" && _dtcCodes.contains(result) == false) {
-              _dtcCodes.add(result);
+            if (result != "P0000" && dtcCodes.contains(result) == false) {
+              dtcCodes.add(result);
             }
-          } on RangeError catch (e) {
+          } on RangeError {
             // index range error - no problem
           }
           result = "";
         }
       }
     }
-    return _dtcCodes;
+    return dtcCodes;
   }
 
   List<String> _calculateParameterFrames(String command, String response) {

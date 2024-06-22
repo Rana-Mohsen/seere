@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seere/constants.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/views/connect_device/cubit/connect_device_cubit.dart';
-import 'package:sizer/sizer.dart';
 
 import '../constants.dart';
 
