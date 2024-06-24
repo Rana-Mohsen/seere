@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:meta/meta.dart';
+import 'package:seere/utils/initialize_car_data.dart';
 import 'package:seere/views/home/cubit/data_cubit.dart';
 
 import '../../../services/bluetooth/obd2_plugin.dart';
@@ -17,8 +19,7 @@ class BluetoothCubit extends Cubit<BluetoothState> {
   List<BluetoothDevice> devices = [];
   BluetoothDevice? device;
   bool send = true;
-  
- 
+  List<String> dtcCodes = [];
 
   bluetoothButton() async {
     if (!buttonOn) {
@@ -45,33 +46,41 @@ class BluetoothCubit extends Cubit<BluetoothState> {
   }
 
   connectToDevice(int index, DataCubit dataCubit) async {
-    obd2.getConnection(devices[index], (connection) {
+    await obd2.getConnection(devices[index], (connection) async {
       device = devices[index];
-      print("connected to bluetooth device.");
-      // obd2.setOnDataReceived((command, response, requestCode) {
-      //   print("==>> $response");
-
-      //   //updateData(response, dataCubit);
-      // });
-      // sendRequiests(dtcJSON);
-      emit(BluetoothOn()); 
+      debugPrint("connected to bluetooth device.");
+      await obd2.setOnDataReceived((command, response, requestCode) {
+        debugPrint("==>> $command");
+        if (command == "DTC") {
+          dtcCodes = json.decode(response);
+        }
+        if (command == "PARAMETER") {
+          updateData(response, dataCubit);
+        }
+      });
+      sendParameterRequiest(paramJSON);
+      emit(BluetoothOn());
     }, (message) {
-      print("error in connecting: $message");
+      debugPrint("error in connecting: $message");
     });
   }
 
-  sendRequiests(parameters) async {
-    // while (send) {
-    //   await Future.delayed(
-    //       Duration(milliseconds: await obd2.getParamsFromJSON(parameters)),
-    //       () {});
-    // }
-    // int i = 3;
-    // while (i < 0) {
-    //   await Future.delayed(
-    //       Duration(milliseconds: await obd2.getDTCFromJSON(parameters)), () {});
-    //   i--;
-    // }
+  sendDtcRequiest(parameters) async {
+    await Future.delayed(
+        Duration(milliseconds: await obd2.getDTCFromJSON(parameters)), () {});
+  }
+
+  sendfreezeFrameRequiest(parameters) async {
+    await Future.delayed(
+        Duration(milliseconds: await obd2.getDTCFromJSON(parameters)), () {});
+  }
+
+  sendParameterRequiest(parameters) async {
+    while (send) {
+      await Future.delayed(
+          Duration(milliseconds: await obd2.getParamsFromJSON(parameters)),
+          () {});
+    }
   }
 
   updateData(response, DataCubit dataCubit) {

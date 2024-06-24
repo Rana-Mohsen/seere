@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/utils/initialize_car_data.dart';
+import 'package:seere/views/connect_device/cubit/bluetooth_cubit.dart';
 import 'package:seere/views/trouble_scan.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:seere/widgets/home_container.dart';
@@ -69,6 +70,8 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         customIconButtom(
                           onPressed: () {
+                            BlocProvider.of<BluetoothCubit>(context).send =
+                                false;
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

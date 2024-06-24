@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 const kPrimaryBackGroundColor = Color(0xFFEDF2FF);
 const kPrimaryBlueColor = Color(0xff2F66F6);
 
@@ -14,7 +13,6 @@ BoxDecoration boxDecoration({double radius = 8}) {
   );
 }
 
-
 BoxShadow boxShadow() {
   return BoxShadow(
       color: Colors.grey.withOpacity(0.5),
@@ -22,4 +20,3 @@ BoxShadow boxShadow() {
       blurRadius: 4,
       offset: const Offset(0, 4));
 }
-
