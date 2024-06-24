@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/utils/initialize_car_data.dart';
 import 'package:seere/views/connect_device/cubit/bluetooth_cubit.dart';
-import 'package:seere/views/trouble_scan.dart';
+import 'package:seere/views/trouble_scan/trouble_scan.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:seere/widgets/home_container.dart';
 import 'package:seere/constants.dart';
@@ -172,29 +172,29 @@ class _HomeViewState extends State<HomeView> {
                   SizedBox(
                     height: 2.h,
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        "Trip data",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  Container(
-                    height: 15.h,
-                    width: double.maxFinite,
-                    decoration: boxDecoration(),
-                    child: Image.asset(
-                      "assets/images/Data.png",
-                      scale: 1.4,
-                    ),
-                  )
+                  // Row(
+                  //   children: [
+                  //     Text(
+                  //       "Trip data",
+                  //       style: TextStyle(
+                  //         fontWeight: FontWeight.w600,
+                  //         fontSize: 16.sp,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 2.h,
+                  // ),
+                  // Container(
+                  //   height: 15.h,
+                  //   width: double.maxFinite,
+                  //   decoration: boxDecoration(),
+                  //   child: Image.asset(
+                  //     "assets/images/Data.png",
+                  //     scale: 1.4,
+                  //   ),
+                  // )
                 ],
               ),
             )

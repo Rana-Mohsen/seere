@@ -7,6 +7,7 @@ import 'package:seere/views/connect_device/cubit/bluetooth_cubit.dart';
 import 'package:seere/views/connect_device/cubit/connect_device_cubit.dart';
 //import 'package:seere/views/nav_container.dart';
 import 'package:seere/views/splash_screen.dart';
+import 'package:seere/views/trouble_scan/cubit/trouble_scan_cubit.dart';
 import 'package:sizer/sizer.dart';
 import 'simple_bloc_observer.dart';
 import 'views/home/cubit/data_cubit.dart';
@@ -30,6 +31,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: ((context) => ConnectDeviceCubit())),
           BlocProvider(create: ((context) => DataCubit())),
           BlocProvider(create: ((context) => BluetoothCubit())),
+                    BlocProvider(create: ((context) => TroubleScanCubit())),
+
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

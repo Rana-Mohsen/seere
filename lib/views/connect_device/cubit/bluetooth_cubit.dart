@@ -19,7 +19,6 @@ class BluetoothCubit extends Cubit<BluetoothState> {
   List<BluetoothDevice> devices = [];
   BluetoothDevice? device;
   bool send = true;
-  List<String> dtcCodes = [];
 
   bluetoothButton() async {
     if (!buttonOn) {
@@ -52,7 +51,9 @@ class BluetoothCubit extends Cubit<BluetoothState> {
       await obd2.setOnDataReceived((command, response, requestCode) {
         debugPrint("==>> $command");
         if (command == "DTC") {
-          dtcCodes = json.decode(response);
+          // dtcCodes = json.decode(response);
+                    dtcCodes = ["pppp","kkk"];
+
         }
         if (command == "PARAMETER") {
           updateData(response, dataCubit);
@@ -65,9 +66,11 @@ class BluetoothCubit extends Cubit<BluetoothState> {
     });
   }
 
-  sendDtcRequiest(parameters) async {
-    await Future.delayed(
-        Duration(milliseconds: await obd2.getDTCFromJSON(parameters)), () {});
+  Future<int> sendDtcRequiest(parameters) async {
+    int delayTime = await obd2.getDTCFromJSON(parameters);
+
+    await Future.delayed(Duration(milliseconds: delayTime), () {});
+    return delayTime;
   }
 
   sendfreezeFrameRequiest(parameters) async {

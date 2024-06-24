@@ -75,7 +75,7 @@ class _LiveDataState extends State<LiveData> {
             builder: (context, state) {
               if (state is BlueData || state is WifiData) {
                 return FutureBuilder(
-                  future: Future.delayed(const Duration(seconds: 10)),
+                  future: Future.delayed(const Duration(microseconds: 3500)),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: Text("Reading real-time live data..."));

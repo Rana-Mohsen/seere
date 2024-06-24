@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seere/views/live_data_view.dart';
-import 'package:seere/views/trouble_scan.dart';
+import 'package:seere/views/trouble_scan/trouble_scan.dart';
 import 'package:seere/widgets/app_center_container.dart';
 import 'package:sizer/sizer.dart';
 

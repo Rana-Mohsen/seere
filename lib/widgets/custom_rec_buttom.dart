@@ -7,15 +7,16 @@ class CustomRecButton extends StatelessWidget {
       {super.key,
       required this.outerColor,
       required this.inerColor,
-      required this.child});
+      required this.child, required this.onTap});
 
   final Widget child;
   final Color outerColor;
   final Color inerColor;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
           width: double.maxFinite,
           decoration: BoxDecoration(
