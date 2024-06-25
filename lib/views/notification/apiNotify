@@ -1,0 +1,41 @@
+import 'package:dio/dio.dart';
+import 'notification_service.dart'; 
+
+Future<void> predictIssue() async {
+  Dio dio = Dio();
+  String url = 'https://ai.seere.live/predict';
+  Map<String, dynamic> data = {
+    "CAR_YEAR": 2015,
+    "ENGINE_POWER": 1.6,
+    "ENGINE_COOLANT_TEMP": 90.0,
+    "ENGINE_LOAD": 0.75,
+    "ENGINE_RPM": 3000,
+    "AIR_INTAKE_TEMP": 30.0,
+    "SPEED": 60,
+    "SHORT_TERM_FUEL_TRIM_BANK_1": 0.2,
+    "THROTTLE_POS": 0.8,
+    "TIMING_ADVANCE": 10
+  };
+
+  try {
+    Response response = await dio.post(url, data: data);
+    if (response.statusCode == 200) {
+      print('Response received: ${response.data}'); // Debugging statement
+      var prediction = response.data['code']; 
+      var severity = response.data['severity']; 
+
+      // Log the prediction and severity
+      print('Prediction: $prediction, Severity: $severity');
+
+      // Example logic to trigger notification based on severity
+      if (severity == 'High') {
+        showNotification('Issue Detected', 'An issue with high severity has been detected with your car.');
+      }
+    } else {
+      print('Failed to get prediction: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error: $e');
+  }
+}
+

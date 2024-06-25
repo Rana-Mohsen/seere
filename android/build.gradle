@@ -1,7 +1,21 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // JCenter is deprecated but can still be included if needed
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0" // Make sure this version matches your Kotlin version
+        // NOTE: Do not place your application dependencies here; they belong in the individual module build.gradle files
+    }
+}
+
 allprojects {
     repositories {
         google()
         mavenCentral()
+        jcenter() // JCenter is deprecated but can still be included if needed
     }
 }
 
@@ -16,3 +30,11 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+// Add your additional dependencies for the notification functionality here
+/* 
+dependencies {
+    implementation 'androidx.window:window:1.0.0'
+    implementation 'androidx.window:window-java:1.0.0'
+}
+*/

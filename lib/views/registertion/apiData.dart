@@ -34,4 +34,17 @@ class ApiService {
       throw Exception('Try again');
     }
   }
+
+  // for forget password
+  Future<Response<dynamic>> forgetPassword(String email) async {
+    try {
+      final response = await _dio.post(
+        'https://seere.somee.com/api/Account/forgetpassword',
+        data: {'email': email},
+      );
+      return response;
+    } catch (error) {
+      throw Exception('Try again');
+    }
+  }
 }
