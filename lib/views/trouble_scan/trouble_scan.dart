@@ -32,7 +32,7 @@ class _TroubleScanState extends State<TroubleScan> {
         leading: BackButton(
           onPressed: () {
             BlocProvider.of<BluetoothCubit>(context).send = true;
-            dtcCodes = null;
+            dtcCodes = [];
             BlocProvider.of<TroubleScanCubit>(context).initialState();
             Navigator.pop(context);
           },

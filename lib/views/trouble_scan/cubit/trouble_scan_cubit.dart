@@ -8,7 +8,7 @@ part 'trouble_scan_state.dart';
 class TroubleScanCubit extends Cubit<TroubleScanState> {
   TroubleScanCubit() : super(TroubleScanInitial());
   initialState() {
-    if (dtcCodes == null) {
+    if (dtcCodes.isEmpty) {
       emit(TroubleScanInitial());
     }
   }
@@ -17,7 +17,7 @@ class TroubleScanCubit extends Cubit<TroubleScanState> {
     emit(RequistDtc());
     await Future.delayed(const Duration(milliseconds: 1500));
 
-    if (dtcCodes!.length == 0) {
+    if (dtcCodes.isEmpty) {
       emit(DtcResultNeg());
     } else {
       emit(DtcResultPos());

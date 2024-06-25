@@ -11,9 +11,9 @@ Map<String, dynamic> requistData = {
   "speed": "01 0D",
   "shortTermFuelBank1": "01 06",
   "throttlePosition": "01 11",
-  "timingAdvance": "01 0E",
+  "timingAdvance": "01 0E"
 };
-  List<dynamic>? dtcCodes;
+List<dynamic> dtcCodes = ["pppp", "kkk"];
 
 Map<String, dynamic> requistedData = {
   "engineCoolantTemp": "0",
