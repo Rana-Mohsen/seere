@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:seere/constants.dart';
-//import 'package:seere/constants.dart';
 import 'package:seere/views/connect_device/cubit/bluetooth_cubit.dart';
 import 'package:seere/views/connect_device/cubit/connect_device_cubit.dart';
-//import 'package:seere/views/nav_container.dart';
+import 'package:seere/views/notification/localNotification';
 import 'package:seere/views/splash_screen.dart';
 import 'package:seere/views/trouble_scan/cubit/trouble_scan_cubit.dart';
 import 'package:sizer/sizer.dart';
@@ -13,6 +12,12 @@ import 'simple_bloc_observer.dart';
 import 'views/home/cubit/data_cubit.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  //ByteData data = await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
+  //SecurityContext.defaultContext.setTrustedCertificatesBytes(data.buffer.asUint8List());
+  //HttpOverrides.global = MyHttpOverrides() as HttpOverrides? ;
+  initializeNotifications();
   Bloc.observer = SimpleBlocObserver();
 
   runApp(Phoenix(child: const MyApp()));

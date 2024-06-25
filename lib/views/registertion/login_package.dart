@@ -4,7 +4,6 @@ import 'package:seere/utils/login_helper.dart';
 import 'package:seere/views/nav_container.dart';
 import 'package:seere/views/registertion/apiData.dart';
 import 'package:seere/views/registertion/storeToken.dart';
-
 const users = {
   'shereengalal60@gmail.com': '12345',
   'hunter@gmail.com': 'hunter',
@@ -29,7 +28,7 @@ class LoginScreen extends StatelessWidget {
       } else {
         return 'User does not exist';
       }
-    } catch (err) {      
+    } catch (err) {
       return 'Try again';
     }
   }
@@ -38,7 +37,7 @@ class LoginScreen extends StatelessWidget {
     String? email = data.name;
     String? password = data.password;
 
-    String? confirmPassword = data.additionalSignupData?['confirmPassword'];
+    //String? confirmPassword = data.additionalSignupData?['confirmPassword'];
     String? username = data.additionalSignupData?['Name'];
     //String? surname = data.additionalSignupData?['Surname'] ?? "Default";
     // Validation (implement before calling this function)
@@ -53,33 +52,38 @@ class LoginScreen extends StatelessWidget {
       final response =
           await ApiService().signupUser(email, password, password, username!);
       if (response.statusCode == 200) {
-        print(confirmPassword);
-        print('///////////////////');
+        //print(confirmPassword);
+        //print('///////////////////');
 
         return null;
       }
     } catch (err) {
-      print(confirmPassword);
-      print('////////////////////////////');
+      //print(confirmPassword);
+      //print('////////////////////////////');
       return 'Try again';
     }
     return null;
   }
 
-  Future<String> _recoverPassword(String name) {
-    debugPrint('Name: $name');
-    return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(name)) {
-        return 'User not exists';
+  Future<String?> _forgetPassword(SignupData data) async {
+    String? username = data.name;
+    try {
+      final response = await ApiService().forgetPassword(username!);
+      if (response.statusCode == 200) {
+        return null;
       }
-      return _recoverPassword(name);
-    });
+    } catch (err) {
+      return 'Try again';
+    }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return FlutterLogin(
       //title: 'SeerE',
+      hideForgotPasswordButton: true,
+
       logo: const AssetImage('assets/images/signin.png'),
       loginAfterSignUp: true,
       onLogin: _authUser,
@@ -94,7 +98,17 @@ class LoginScreen extends StatelessWidget {
           builder: (context) => const NavContainer(),
         ));
       },
-      onRecoverPassword: _recoverPassword,
+      onRecoverPassword: (String) {},
+      /*children: [
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: TextButton(onPressed: (){
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const Text('Enter your code'),
+        ));
+          }, child: const Text('Forget Password')),
+        )
+      ],*/
     );
   }
 }

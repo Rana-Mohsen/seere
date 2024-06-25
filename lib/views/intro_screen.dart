@@ -4,7 +4,6 @@ import 'package:seere/views/registertion/login_package.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-
 class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});
 
@@ -68,7 +67,8 @@ class _OnBoardingState extends State<OnBoarding> {
                       final prefs = await SharedPreferences.getInstance();
                       prefs.setBool('showChoose', true);
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()),
                       );
                     },
                     child: const Text(

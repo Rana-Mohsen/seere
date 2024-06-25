@@ -55,6 +55,7 @@ dependencies:
   vector_graphics_compiler: ^1.1.11+1
   flutter_launcher_icons: ^0.13.1
   flutter_secure_storage: ^9.2.1
+  flutter_local_notifications: ^17.1.2
   fancy_nav:
     path: ./fancy_nav
   smooth_page_indicator: ^1.1.0
@@ -94,6 +95,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/ca/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
