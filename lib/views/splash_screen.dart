@@ -40,7 +40,8 @@ class _SplashScreenState extends State<SplashScreen> {
           } else {
             return Helper.isLogged == true
                 ? const NavContainer()
-                : const OnBoarding();
+                : const NavContainer();
+            // : const OnBoarding();
           }
         },
       ),

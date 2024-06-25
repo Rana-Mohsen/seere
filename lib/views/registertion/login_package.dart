@@ -24,12 +24,12 @@ class LoginScreen extends StatelessWidget {
         final String token = response.data['token'];
 
         await setAccessToken(token);
-        print("----------token: $token --------------");
+        debugPrint("----------token: $token --------------");
         return null;
       } else {
-        return 'User not exists';
+        return 'User does not exist';
       }
-    } catch (err) {
+    } catch (err) {      
       return 'Try again';
     }
   }

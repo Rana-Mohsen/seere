@@ -17,7 +17,7 @@ class TroubleScanCubit extends Cubit<TroubleScanState> {
     emit(RequistDtc());
     await Future.delayed(const Duration(milliseconds: 1500));
 
-    if (dtcCodes == null) {
+    if (dtcCodes!.length == 0) {
       emit(DtcResultNeg());
     } else {
       emit(DtcResultPos());

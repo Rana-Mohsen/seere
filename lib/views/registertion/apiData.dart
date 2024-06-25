@@ -1,3 +1,5 @@
+//import 'dart:js_interop';
+
 import 'package:dio/dio.dart';
 
 class ApiService {

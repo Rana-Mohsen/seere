@@ -45,15 +45,15 @@ class BluetoothCubit extends Cubit<BluetoothState> {
   }
 
   connectToDevice(int index, DataCubit dataCubit) async {
+    debugPrint("##########${obd2.connection?.isConnected.toString()}#########");
     await obd2.getConnection(devices[index], (connection) async {
       device = devices[index];
       debugPrint("connected to bluetooth device.");
       await obd2.setOnDataReceived((command, response, requestCode) {
         debugPrint("==>> $command");
         if (command == "DTC") {
-          // dtcCodes = json.decode(response);
-                    dtcCodes = ["pppp","kkk"];
-
+           dtcCodes = json.decode(response);
+          //dtcCodes = ["pppp", "kkk"];
         }
         if (command == "PARAMETER") {
           updateData(response, dataCubit);
