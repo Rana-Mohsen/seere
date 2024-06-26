@@ -4,12 +4,15 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:seere/constants.dart';
 import 'package:seere/views/connect_device/cubit/bluetooth_cubit.dart';
 import 'package:seere/views/connect_device/cubit/connect_device_cubit.dart';
+
 import 'package:seere/views/notification/localNotification';
 import 'package:seere/views/splash_screen.dart';
 import 'package:seere/views/trouble_scan/cubit/trouble_scan_cubit.dart';
 import 'package:sizer/sizer.dart';
 import 'simple_bloc_observer.dart';
 import 'views/home/cubit/data_cubit.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,14 +20,16 @@ void main() async {
   //ByteData data = await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
   //SecurityContext.defaultContext.setTrustedCertificatesBytes(data.buffer.asUint8List());
   //HttpOverrides.global = MyHttpOverrides() as HttpOverrides? ;
+
   initializeNotifications();
   Bloc.observer = SimpleBlocObserver();
 
-  runApp(Phoenix(child: const MyApp()));
+  runApp(Phoenix(child: MyApp()));
+  predictIssue();
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -92,5 +97,47 @@ class MyApp extends StatelessWidget {
             ),
       );
     });
+  }
+}
+Future<void> predictIssue() async {
+  String url = 'https://ai.seere.live/predict';
+  Map<String, dynamic> data = {
+    "CAR_YEAR": 2015,
+    "ENGINE_POWER": 1.6,
+    "ENGINE_COOLANT_TEMP": 90.0,
+    "ENGINE_LOAD": 0.75,
+    "ENGINE_RPM": 3000,
+    "AIR_INTAKE_TEMP": 30.0,
+    "SPEED": 60,
+    "SHORT TERM FUEL TRIM BANK 1": 0.2,
+    "THROTTLE_POS": 0.8,
+    "TIMING_ADVANCE": 10
+  };
+
+  try {
+    print('Sending request to $url with data: $data');
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(data),  // Use the json.encode method from dart:convert
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);  // Use the json.decode method from dart:convert
+      print('Response received: $responseData');
+      var prediction = responseData['code'];
+      var severity = responseData['severity'];
+
+      print('Prediction: $prediction, Severity: $severity');
+
+      if (severity == 'High') {
+        showNotification('Issue Detected', 'An issue with high severity has been detected with your car.');
+      }
+    } else {
+      print('Failed to get prediction: ${response.statusCode}');
+      print('Response data: ${response.body}');
+    }
+  } catch (e) {
+    print('Error: $e');
   }
 }
