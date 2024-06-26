@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/utils/initialize_car_data.dart';
+import 'package:seere/views/trouble_scan/code_description.dart';
 import 'package:seere/views/trouble_scan/cubit/trouble_scan_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../models/dtc_code_model.dart';
+import '../../widgets/dtc_card.dart';
 
 class DtcDetailsScreen extends StatefulWidget {
   const DtcDetailsScreen({super.key});
@@ -28,69 +30,24 @@ class _DtcDetailsScreenState extends State<DtcDetailsScreen> {
           child: ListView.builder(
             itemCount: dtcCodes.length,
             itemBuilder: (context, index) {
-              return dtcCard(
+              return DtcCard(
                 title: dtcDetailsList[index].description ?? "N/A",
                 code: dtcDetailsList[index].dtcCode ?? "N/A",
                 criticalLevel: dtcDetailsList[index].criticalLevel ?? "N/A",
+                icon: GestureDetector(
+                          child: const Icon(Icons.arrow_forward_ios_rounded),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CodeDescription(codeDesc: dtcDetailsList[index]),
+                                ));
+                          },
+                        ),
               );
             },
           )),
     );
   }
 
-  Widget dtcCard(
-      {required String title,
-      required String code,
-      required String criticalLevel}) {
-    return Card(
-      surfaceTintColor: Colors.white,
-      //s color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SizedBox(
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(fontWeight: FontWeight.w600),
-              ),
-              const Divider(),
-              Row(
-                children: [
-                  const Text(
-                    "DTC code: ",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black45,
-                    ),
-                  ),
-                  Text(
-                    code,
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-              const Divider(),
-              Row(
-                children: [
-                  const Text(
-                    "Critical level: ",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600, color: Colors.black45),
-                  ),
-                  Text(
-                    criticalLevel,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w600, color: Colors.red),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
