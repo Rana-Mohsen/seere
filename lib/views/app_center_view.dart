@@ -3,11 +3,11 @@ import 'package:seere/views/live_data_view.dart';
 import 'package:seere/views/trouble_scan/trouble_scan.dart';
 import 'package:seere/widgets/app_center_container.dart';
 import 'package:sizer/sizer.dart';
-
 class AppCenterView extends StatelessWidget {
-  const AppCenterView({super.key});
+   AppCenterView({super.key});
 
-  final List<Map<String, dynamic>> _containerData = const [
+  final List<Map<String, dynamic>> _containerData =  const[
+    {'name':"Check Car Issue",'image':"assets/icons/trouble_scan2.svg","rout":Text('predict')},
     {'name': "Component test", 'image': "assets/icons/comp_test.svg","rout":LiveData()},
     {'name': "Live data", 'image': "assets/icons/live_data2.svg","rout":LiveData()},
     {'name': "Trouble scan", 'image': "assets/icons/trouble_scan2.svg","rout":TroubleScan()},

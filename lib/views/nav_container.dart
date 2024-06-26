@@ -16,11 +16,7 @@ class NavContainer extends StatefulWidget {
 
 class _NavContainerState extends State<NavContainer> {
   int currentIndex = 0;
-  List<Widget> pages = [
-    const HomeView(),
-    const AppCenterView(),
-    const MyInfoView()
-  ];
+  List<Widget> pages = [const HomeView(), AppCenterView(), const MyInfoView()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +31,6 @@ class _NavContainerState extends State<NavContainer> {
         child: pages[currentIndex],
       ),
       bottomNavigationBar: FancyBottomNavigation(
-        
-
           tabs: [
             TabData(iconData: MyFlutterApp.home, title: "Home"),
             TabData(iconData: MyFlutterApp.menu, title: "Application Center"),
