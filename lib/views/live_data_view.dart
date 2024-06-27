@@ -71,94 +71,80 @@ class _LiveDataState extends State<LiveData> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BlocBuilder<DataCubit, DataState>(
-            builder: (context, state) {
-              if (state is BlueData || state is WifiData) {
-                return FutureBuilder(
-                  future: Future.delayed(const Duration(microseconds: 3500)),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: Text("Reading real-time live data..."));
-                    } else {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              dataContainer(
-                                data: requistedData["speed"],
-                                unit: "km/h",
-                                icon:
-                                    "assets/icons/live_data_current_speed.svg",
-                                name: "Current speed",
-                              ),
-                              dataContainer(
-                                data: requistedData["engineRPM"],
-                                unit: "RPM",
-                                icon: "assets/icons/live_data_battery.svg",
-                                name: "Engine rpm",
-                              ),
-                              dataContainer(
-                                data: requistedData["engineCoolantTemp"],
-                                unit: "°C",
-                                icon: "assets/icons/live_data_coolant.svg",
-                                name: "Engine coolant temp",
-                              ),
-                              dataContainer(
-                                data:
-                                    requistedData["shortTermFuelBank1"] ?? "0",
-                                unit: "%",
-                                icon: "assets/icons/live_data_fuel.svg",
-                                name: "Short term fuel bank1",
-                              ),
-                              dataContainer(
-                                data: requistedData["engineLoad"],
-                                unit: "%",
-                                icon: "assets/icons/live_data_load.svg",
-                                name: "Engine load",
-                              ),
-                              dataContainer(
-                                data: requistedData["throttlePosition"],
-                                unit: "%",
-                                icon:
-                                    "assets/icons/live_data_baseline-speed.svg",
-                                name: "Throttle position",
-                              ),
-                              dataContainer(
-                                data: requistedData["airintakeTemp"],
-                                unit: "°C",
-                                icon: "assets/icons/live_data_temperature.svg",
-                                name: "Airintake temp",
-                              ),
-                              dataContainer(
-                                data: requistedData["timingAdvance"],
-                                unit: "°",
-                                icon: "assets/icons/live_data_pressure.svg",
-                                name: "Timing advance",
-                              ),
-                            ],
-                          ),
-                          SvgPicture.asset("assets/images/live_data_car.svg"),
-                        ],
-                      );
-                    }
-                  },
-                );
-              } else {
-                return const Center(
-                  child: Column(
+          BlocBuilder<DataCubit, DataState>(builder: (context, state) {
+            if (state is BlueData || state is WifiData) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircularProgressIndicator(
-                        color: kPrimaryBlueColor,
+                      dataContainer(
+                        data: requistedData["speed"],
+                        unit: "km/h",
+                        icon: "assets/icons/live_data_current_speed.svg",
+                        name: "Current speed",
                       ),
-                      Text("Connect to device")
+                      dataContainer(
+                        data: requistedData["engineRPM"],
+                        unit: "RPM",
+                        icon: "assets/icons/live_data_battery.svg",
+                        name: "Engine rpm",
+                      ),
+                      dataContainer(
+                        data: requistedData["engineCoolantTemp"],
+                        unit: "°C",
+                        icon: "assets/icons/live_data_coolant.svg",
+                        name: "Engine coolant temp",
+                      ),
+                      dataContainer(
+                        data: requistedData["shortTermFuelBank1"] ?? "0",
+                        unit: "%",
+                        icon: "assets/icons/live_data_fuel.svg",
+                        name: "Short term fuel bank1",
+                      ),
+                      dataContainer(
+                        data: requistedData["engineLoad"],
+                        unit: "%",
+                        icon: "assets/icons/live_data_load.svg",
+                        name: "Engine load",
+                      ),
+                      dataContainer(
+                        data: requistedData["throttlePosition"],
+                        unit: "%",
+                        icon: "assets/icons/live_data_baseline-speed.svg",
+                        name: "Throttle position",
+                      ),
+                      dataContainer(
+                        data: requistedData["airintakeTemp"],
+                        unit: "°C",
+                        icon: "assets/icons/live_data_temperature.svg",
+                        name: "Airintake temp",
+                      ),
+                      dataContainer(
+                        data: requistedData["timingAdvance"],
+                        unit: "°",
+                        icon: "assets/icons/live_data_pressure.svg",
+                        name: "Timing advance",
+                      ),
                     ],
                   ),
-                );
-              }
-            },
-          ),
+                  SvgPicture.asset("assets/images/live_data_car.svg"),
+                ],
+              );
+            } else {
+              return const Center(
+                child: Column(
+                  children: [
+                    CircularProgressIndicator(
+                      color: kPrimaryBlueColor,
+                    ),
+                    Text("Connect to device")
+                  ],
+                ),
+              );
+            }
+          }),
         ],
       ),
     );
@@ -173,8 +159,8 @@ class _LiveDataState extends State<LiveData> {
         children: [
           RichText(
             text: TextSpan(
-              style:
-                  const TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: const TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.w600),
               children: [
                 TextSpan(text: data, style: TextStyle(fontSize: 16.sp)),
                 TextSpan(

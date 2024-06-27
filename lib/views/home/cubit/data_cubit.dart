@@ -17,5 +17,4 @@ class DataCubit extends Cubit<DataState> {
 
     emit(BlueData());
   }
- 
 }

@@ -13,7 +13,7 @@ class CodeDescription extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
         child: Column(
           children: [
             DtcCard(
@@ -21,33 +21,33 @@ class CodeDescription extends StatelessWidget {
               title: codeDesc.description ?? "N/A",
               criticalLevel: codeDesc.criticalLevel ?? "N/A",
             ),
-            const Text("Code description"),
-            Text(
-              codeDesc.longDescription ?? "N/A",
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Colors.black45,
-              ),
-            ),
-            const Text("Reasons for fault"),
-            Text(
-              codeDesc.reason ?? "N/A",
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Colors.black45,
-              ),
-            ),
-            const Text("Repairing suggestions"),
-            Text(
-              codeDesc.repair ?? "N/A",
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Colors.black45,
-              ),
-            ),
+            textPara(
+                header: "Code description", body: codeDesc.longDescription),
+            textPara(header: "Reasons for fault", body: codeDesc.reason),
+            textPara(header: "Repairing suggestions", body: codeDesc.repair),
           ],
         ),
       ),
+    );
+  }
+
+  Widget textPara({required String header, required String? body}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 16, bottom: 8),
+          child:
+              Text(header, style: const TextStyle(fontWeight: FontWeight.w600)),
+        ),
+        Text(
+          body ?? "N/A",
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Colors.black45,
+          ),
+        ),
+      ],
     );
   }
 }

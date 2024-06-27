@@ -24,12 +24,12 @@ void main() async {
   initializeNotifications();
   Bloc.observer = SimpleBlocObserver();
 
-  runApp(Phoenix(child: MyApp()));
+  runApp(Phoenix(child: const MyApp()));
   predictIssue();
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -82,18 +82,6 @@ class MyApp extends StatelessWidget {
               ),
             ),
             home: const SplashScreen()
-            // FutureBuilder(
-            //   future: Helper.getUserLoggedInSharedPreference(),
-            //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-            //     if (snapshot.connectionState == ConnectionState.waiting) {
-            //       return  Container(); // Show container while waiting for future to complete
-            //     } else {
-            //       return Helper.isLogged == true
-            //           ? const NavContainer()
-            //           : const SplashScreen();
-            //     }
-            //   },
-            // ),
             ),
       );
     });

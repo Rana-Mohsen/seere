@@ -35,19 +35,21 @@ class _DtcDetailsScreenState extends State<DtcDetailsScreen> {
                 code: dtcDetailsList[index].dtcCode ?? "N/A",
                 criticalLevel: dtcDetailsList[index].criticalLevel ?? "N/A",
                 icon: GestureDetector(
-                          child: const Icon(Icons.arrow_forward_ios_rounded),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CodeDescription(codeDesc: dtcDetailsList[index]),
-                                ));
-                          },
-                        ),
+                  child: SizedBox(
+                      width: 5.w,
+                      child: const Icon(Icons.arrow_forward_ios_rounded)),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              CodeDescription(codeDesc: dtcDetailsList[index]),
+                        ));
+                  },
+                ),
               );
             },
           )),
     );
   }
-
 }

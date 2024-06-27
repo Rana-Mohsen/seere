@@ -42,7 +42,10 @@ class _TroubleScanState extends State<TroubleScan> {
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            Image.asset("assets/images/last.png"),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Image.asset("assets/images/pngegg.png"),
+            ),
             BlocConsumer<TroubleScanCubit, TroubleScanState>(
               listener: (context, state) {
                 if (state is DtcResultPos || state is DtcResultNeg) {
@@ -75,9 +78,12 @@ class _TroubleScanState extends State<TroubleScan> {
                   inerColor: inerColor,
                   child: Center(
                     child: state is RequistDtc
-                        ? const CircularProgressIndicator(
-                            color: kPrimaryBlueColor,
-                          )
+                        ? SizedBox(
+                            height: 3.h,
+                            child: Image.asset("assets/images/frogcarspin.gif"))
+                        // const CircularProgressIndicator(
+                        //     color: kPrimaryBlueColor,
+                        //   )
                         : state is DtcResultPos
                             ? Text(
                                 "${dtcCodes!.length} Dtc detected",
@@ -108,14 +114,31 @@ class _TroubleScanState extends State<TroubleScan> {
                 );
               },
             ),
-            BlocBuilder<TroubleScanCubit, TroubleScanState>(
-              builder: (context, state) {
-                if (state is DtcResultPos) {
-                  return Text(dtcCodes.toString());
-                } else {
-                  return Container();
-                }
-              },
+            SizedBox(
+              height: 4.h,
+            ),
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                width: double.maxFinite,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: kPrimaryBlueColor, width: 2),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Center(
+                      child: Text(
+                    "Clear dtc Codes",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12.sp,
+                      color: kPrimaryBlueColor,
+                    ),
+                  )),
+                ),
+              ),
             )
           ],
         ),
