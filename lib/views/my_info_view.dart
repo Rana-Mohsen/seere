@@ -8,17 +8,24 @@ import 'package:seere/constants.dart';
 import 'package:seere/utils/login_helper.dart';
 import 'package:seere/views/connect_device/cubit/bluetooth_cubit.dart';
 import 'package:seere/views/predicted_codes/predicted_codes.dart';
+import 'package:seere/views/notification/localNotification';
+//import 'package:seere/views/predicted_codes.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:sizer/sizer.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class MyInfoView extends StatefulWidget {
-  const MyInfoView({super.key});
+  
+  MyInfoView({super.key});
 
   @override
   State<MyInfoView> createState() => _MyInfoViewState();
 }
 
 class _MyInfoViewState extends State<MyInfoView> {
+ 
+
   bool status = false;
   @override
   Widget build(BuildContext context) {
@@ -134,14 +141,9 @@ class _MyInfoViewState extends State<MyInfoView> {
                                 showOnOff: true,
                                 onToggle: (val) {
                                   setState(() {
+                                    predictIssue();
                                     status = val;
-                                    if (status) {
-                                      BlocProvider.of<BluetoothCubit>(context)
-                                          .predict = true;
-                                    } else {
-                                      BlocProvider.of<BluetoothCubit>(context)
-                                          .predict = false;
-                                    }
+                                  
                                   });
                                 },
                               ),
@@ -239,4 +241,45 @@ class _MyInfoViewState extends State<MyInfoView> {
   //     ),
   //   );
   // }
+}
+Future<void> predictIssue() async {
+  String url = 'https://ai.seere.live/predict';
+  Map<String, dynamic> data = {
+    "engine_power": 1.60,
+    "engine_coolant_temp": 66.00,
+    "engine_load": 0.00,
+    "engine_rpm": 0.00,
+    "air_intake_temp": -10.00,
+    "speed": 0.00,
+    "short_term_fuel_trim": 0.00,
+    "throttle_pos": 13.00,
+    "timing_advance": 52.00
+};
+
+  try {
+    print('Sending request to $url with data: $data');
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(data),  
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);  
+      print('Response received: $responseData');
+      var prediction = responseData['code'];
+      var severity = 'High';
+
+      print('Prediction: $prediction, Severity: $severity');
+
+      if (severity == 'High') {
+        showNotification('Issue Detected', 'An issue with high severity has been detected with your car.');
+      }
+    } else {
+      print('Failed to get prediction: ${response.statusCode}');
+      print('Response data: ${response.body}');
+    }
+  } catch (e) {
+    print('Error: $e');
+  }
 }

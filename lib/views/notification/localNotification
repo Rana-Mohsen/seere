@@ -38,3 +38,4 @@ Future<void> showNotification(String title, String body) async {
     payload: 'item x',
   );
 }
+

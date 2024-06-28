@@ -4,6 +4,7 @@ import 'package:seere/utils/login_helper.dart';
 import 'package:seere/views/nav_container.dart';
 import 'package:seere/views/registertion/apiData.dart';
 import 'package:seere/views/registertion/storeToken.dart';
+
 const users = {
   'shereengalal60@gmail.com': '12345',
   'hunter@gmail.com': 'hunter',
@@ -39,6 +40,8 @@ class LoginScreen extends StatelessWidget {
 
     //String? confirmPassword = data.additionalSignupData?['confirmPassword'];
     String? username = data.additionalSignupData?['Name'];
+    String? carName = data.additionalSignupData?['Car Name'];
+    String? carYear = data.additionalSignupData?['Car Year'];
     //String? surname = data.additionalSignupData?['Surname'] ?? "Default";
     // Validation (implement before calling this function)
     if (email!.isEmpty || !email.contains('@')) {
@@ -49,8 +52,8 @@ class LoginScreen extends StatelessWidget {
     // return 'Passwords do not match';
     //}
     try {
-      final response =
-          await ApiService().signupUser(email, password, password, username!);
+      final response = await ApiService()
+          .signupUser(email, password, password, username!, carName!, carYear!);
       if (response.statusCode == 200) {
         //print(confirmPassword);
         //print('///////////////////');
@@ -91,6 +94,8 @@ class LoginScreen extends StatelessWidget {
 
       additionalSignupFields: const [
         UserFormField(keyName: 'Name'),
+        UserFormField(keyName: 'Car Name'),
+        UserFormField(keyName: 'Car Year'),
       ],
       onSubmitAnimationCompleted: () {
         Helper.saveUserLoggedInSharedPreference(true);

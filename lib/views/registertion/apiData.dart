@@ -19,8 +19,13 @@ class ApiService {
   }
 
   //for register
-  Future<Response<dynamic>> signupUser(String email, String password,
-      String confirmPassword, String name) async {
+  Future<Response<dynamic>> signupUser(
+      String email,
+      String password,
+      String confirmPassword,
+      String name,
+      String carName,
+      String carYear) async {
     try {
       final response = await _dio.post(
         'https://seere.somee.com/api/Account/register',
@@ -31,6 +36,10 @@ class ApiService {
           'name': name
         },
       );
+      ////
+      carName = "aofn";
+      carYear = "afno";
+      /////////////////////
       return response;
     } catch (error) {
       throw Exception('Try again');

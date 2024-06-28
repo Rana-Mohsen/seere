@@ -4,31 +4,30 @@ import 'dart:convert';
 Future<void> predictIssue() async {
   String url = 'https://ai.seere.live/predict';
   Map<String, dynamic> data = {
-    "CAR_YEAR": 2015,
-    "ENGINE_POWER": 1.6,
-    "ENGINE_COOLANT_TEMP": 90.0,
-    "ENGINE_LOAD": 0.75,
-    "ENGINE_RPM": 3000,
-    "AIR_INTAKE_TEMP": 30.0,
-    "SPEED": 60,
-    "SHORT TERM FUEL TRIM BANK 1": 0.2,
-    "THROTTLE_POS": 0.8,
-    "TIMING_ADVANCE": 10
-  };
+    "engine_power": 1.60,
+    "engine_coolant_temp": 66.00,
+    "engine_load": 0.00,
+    "engine_rpm": 0.00,
+    "air_intake_temp": -10.00,
+    "speed": 0.00,
+    "short_term_fuel_trim": 0.00,
+    "throttle_pos": 13.00,
+    "timing_advance": 52.00
+};
 
   try {
     print('Sending request to $url with data: $data');
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
-      body: json.encode(data),  // Use the json.encode method from dart:convert
+      body: json.encode(data),  
     );
 
     if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);  // Use the json.decode method from dart:convert
+      final responseData = json.decode(response.body);  
       print('Response received: $responseData');
       var prediction = responseData['code'];
-      var severity = responseData['severity'];
+      var severity = 'High';
 
       print('Prediction: $prediction, Severity: $severity');
 
