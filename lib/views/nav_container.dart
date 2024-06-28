@@ -16,7 +16,7 @@ class NavContainer extends StatefulWidget {
 
 class _NavContainerState extends State<NavContainer> {
   int currentIndex = 0;
-  List<Widget> pages = [const HomeView(), AppCenterView(), const MyInfoView()];
+  List<Widget> pages = [const HomeView(), AppCenterView(),  MyInfoView()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
