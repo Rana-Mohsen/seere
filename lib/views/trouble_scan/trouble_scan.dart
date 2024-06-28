@@ -60,6 +60,15 @@ class _TroubleScanState extends State<TroubleScan> {
                 Color inerColor = state is DtcResultPos
                     ? const Color(0xffFFD600)
                     : const Color(0xff618bf8);
+                if (state is RequistDtc) {
+                  BlocProvider.of<BluetoothCubit>(context).send = false;
+                } else {
+                  if (BlocProvider.of<BluetoothCubit>(context).send == false) {
+                    BlocProvider.of<BluetoothCubit>(context).send = true;
+                    BlocProvider.of<BluetoothCubit>(context)
+                        .sendParameterRequiest(paramJSON);
+                  }
+                }
 
                 return CustomRecButton(
                   onTap: () {

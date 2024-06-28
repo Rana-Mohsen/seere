@@ -19,6 +19,7 @@ class TroubleScanCubit extends Cubit<TroubleScanState> {
 
   buttonPressed() async {
     emit(RequistDtc());
+
     for (int i = 0; i < dtcCodes.length; i++) {
       print(dtcCodes[i]);
       Map<String, dynamic> detailsJson =

@@ -5,10 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:meta/meta.dart';
+import 'package:seere/models/prediction_model.dart';
+import 'package:seere/services/prediction_sevice.dart';
 import 'package:seere/utils/initialize_car_data.dart';
 import 'package:seere/views/home/cubit/data_cubit.dart';
+import 'package:seere/views/predicted_codes/predicted_codes.dart';
 
 import '../../../services/bluetooth/obd2_plugin.dart';
+import '../../predicted_codes/cubit/predict_codes_cubit.dart';
 
 part 'bluetooth_state.dart';
 
@@ -19,6 +23,8 @@ class BluetoothCubit extends Cubit<BluetoothState> {
   List<BluetoothDevice> devices = [];
   BluetoothDevice? device;
   bool send = true;
+  bool predict = false;
+  int count = 0;
 
   bluetoothButton() async {
     if (!buttonOn) {
@@ -44,7 +50,7 @@ class BluetoothCubit extends Cubit<BluetoothState> {
     }
   }
 
-  connectToDevice(int index, DataCubit dataCubit) async {
+  connectToDevice(int index, DataCubit dataCubit,) async {
     debugPrint("##########${obd2.connection?.isConnected.toString()}#########");
     await obd2.getConnection(devices[index], (connection) async {
       device = devices[index];
@@ -52,8 +58,8 @@ class BluetoothCubit extends Cubit<BluetoothState> {
       await obd2.setOnDataReceived((command, response, requestCode) {
         debugPrint("==>> $command");
         if (command == "DTC") {
-           dtcCodes = json.decode(response);
-          //dtcCodes = ["pppp", "kkk"];
+          //dtcCodes = json.decode(response);
+          dtcCodes = ["P0111", "P0327"];
         }
         if (command == "PARAMETER") {
           updateData(response, dataCubit);
@@ -86,7 +92,7 @@ class BluetoothCubit extends Cubit<BluetoothState> {
     }
   }
 
-  updateData(response, DataCubit dataCubit) {
+  updateData(response, DataCubit dataCubit) async {
     List<dynamic> responseData = json.decode(response);
     String resp;
     for (var data in responseData) {
@@ -102,7 +108,34 @@ class BluetoothCubit extends Cubit<BluetoothState> {
           value = resp; //+ data["unit"]
       dataCubit.updateDataBlue(name, value);
     }
-    //print(requistedData);
+    if (predict) {
+      debugPrint("=--=-=---=-=-=-=-=-$count");
+      if (count == 2) {
+        PredictionModel predictionRsp = await PredictService().predict(
+          engine_power:
+              double.parse(requistedData[mapDataToApi('engine_power')]),
+          engine_coolant_temp:
+              double.parse(requistedData[mapDataToApi('engine_coolant_temp')]),
+          engine_load: double.parse(requistedData[mapDataToApi('engine_load')]),
+          engine_rpm: double.parse(requistedData[mapDataToApi('engine_rpm')]),
+          air_intake_temp:
+              double.parse(requistedData[mapDataToApi('air_intake_temp')]),
+          speed: double.parse(requistedData[mapDataToApi('speed')]),
+          short_term_fuel_trim:
+              double.parse(requistedData[mapDataToApi('short_term_fuel_trim')]),
+          throttle_pos:
+              double.parse(requistedData[mapDataToApi('throttle_pos')]),
+          timing_advance:
+              double.parse(requistedData[mapDataToApi('timing_advance')]),
+        );
+        predictedCodesList.add(predictionRsp);
+       // predictCodesCubit.addCode();
+        debugPrint(predictionRsp.toString());
+        count = 0;
+      } else {
+        count += 1;
+      }
+    }
   }
 
   String mapRespNameToRequistedData(String name) {
@@ -126,5 +159,30 @@ class BluetoothCubit extends Cubit<BluetoothState> {
     }
 
     return "";
+  }
+
+  String mapDataToApi(String name) {
+    switch (name) {
+      case 'engine_power':
+        return 'enginePower';
+      case 'engine_coolant_temp':
+        return 'engineCoolantTemp';
+      case 'engine_load':
+        return 'engineLoad';
+      case 'engine_rpm':
+        return 'engineRPM';
+      case 'air_intake_temp':
+        return 'airintakeTemp';
+      case 'speed':
+        return 'speed';
+      case 'short_term_fuel_trim':
+        return 'shortTermFuelBank1';
+      case 'throttle_pos':
+        return 'throttlePosition';
+      case 'timing_advance':
+        return 'timingAdvance'; // Corrected this line
+      default:
+        return "";
+    }
   }
 }

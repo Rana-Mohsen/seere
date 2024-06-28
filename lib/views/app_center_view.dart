@@ -4,6 +4,8 @@ import 'package:seere/views/trouble_scan/trouble_scan.dart';
 import 'package:seere/widgets/app_center_container.dart';
 import 'package:sizer/sizer.dart';
 
+import 'predicted_codes/predicted_codes.dart';
+
 class AppCenterView extends StatelessWidget {
   AppCenterView({super.key});
 
@@ -11,7 +13,7 @@ class AppCenterView extends StatelessWidget {
     {
       'name': "Predicted issues",
       'image': "assets/icons/comp_test.svg",
-      "rout": LiveData()
+      "rout": PredictedCodes()
     },
     {
       'name': "Live data",

@@ -7,6 +7,7 @@ import 'package:seere/widgets/custom_button.dart';
 import 'package:sizer/sizer.dart';
 
 import '../home/cubit/data_cubit.dart';
+import '../predicted_codes/cubit/predict_codes_cubit.dart';
 import 'cubit/bluetooth_cubit.dart';
 
 class Bluetooth extends StatefulWidget {
@@ -109,6 +110,7 @@ Future<void> showBluetoothList(
                   child: TextButton(
                     onPressed: () async {
                       DataCubit dataCubit = BlocProvider.of<DataCubit>(context);
+                    //  PredictCodesCubit predictCodesCubit = BlocProvider.of<PredictCodesCubit>(context);
                       await BlocProvider.of<BluetoothCubit>(context)
                           .connectToDevice(index, dataCubit);
                       Navigator.pop(builder);

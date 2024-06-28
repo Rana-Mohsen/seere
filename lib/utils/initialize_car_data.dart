@@ -1,3 +1,5 @@
+import '../models/prediction_model.dart';
+
 Map<String, dynamic> requistData = {
   //"date": ,
   "troubleCode": "03",
@@ -13,9 +15,11 @@ Map<String, dynamic> requistData = {
   "throttlePosition": "01 11",
   "timingAdvance": "01 0E"
 };
+List<PredictionModel> predictedCodesList = [];
 List<dynamic> dtcCodes = ["P0111", "P0327"];
 
 Map<String, dynamic> requistedData = {
+  "enginePower": "0",
   "engineCoolantTemp": "0",
   "engineLoad": "0",
   "engineRPM": "0",
