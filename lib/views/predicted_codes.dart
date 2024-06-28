@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CarManagement extends StatelessWidget {
-  const CarManagement({super.key});
+class PredectedCodes extends StatelessWidget {
+  const PredectedCodes({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,16 +3,31 @@ import 'package:seere/views/live_data_view.dart';
 import 'package:seere/views/trouble_scan/trouble_scan.dart';
 import 'package:seere/widgets/app_center_container.dart';
 import 'package:sizer/sizer.dart';
-class AppCenterView extends StatelessWidget {
-   AppCenterView({super.key});
 
-  final List<Map<String, dynamic>> _containerData =  const[
-    {'name':"Check Car Issue",'image':"assets/icons/trouble_scan2.svg","rout":Text('predict')},
-    {'name': "Component test", 'image': "assets/icons/comp_test.svg","rout":LiveData()},
-    {'name': "Live data", 'image': "assets/icons/live_data2.svg","rout":LiveData()},
-    {'name': "Trouble scan", 'image': "assets/icons/trouble_scan2.svg","rout":TroubleScan()},
-    {'name': "In-depth check", 'image': "assets/icons/in_depth2.svg","rout":LiveData()},
-    {'name': "Battery check", 'image': "assets/icons/live_data2.svg","rout":LiveData()},
+class AppCenterView extends StatelessWidget {
+  AppCenterView({super.key});
+
+  final List<Map<String, dynamic>> _containerData = const [
+    {
+      'name': "Predicted issues",
+      'image': "assets/icons/comp_test.svg",
+      "rout": LiveData()
+    },
+    {
+      'name': "Live data",
+      'image': "assets/icons/live_data2.svg",
+      "rout": LiveData()
+    },
+    {
+      'name': "Trouble scan",
+      'image': "assets/icons/trouble_scan2.svg",
+      "rout": TroubleScan()
+    },
+    {
+      'name': "In-depth check",
+      'image': "assets/icons/in_depth2.svg",
+      "rout": LiveData()
+    },
   ];
   @override
   Widget build(BuildContext context) {
@@ -39,7 +54,7 @@ class AppCenterView extends StatelessWidget {
                 isTap: false,
                 isSvg: false,
                 image: 'assets/images/center_car.png',
-                lable: "Iso car model 1570",
+                lable: "",
                 imgSize: 18,
                 hight: 25.1.h,
                 width: double.maxFinite,

@@ -59,6 +59,7 @@ dependencies:
   fancy_nav:
     path: ./fancy_nav
   smooth_page_indicator: ^1.1.0
+  flutter_switch: ^0.3.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

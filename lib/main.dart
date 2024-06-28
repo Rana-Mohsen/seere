@@ -25,7 +25,7 @@ void main() async {
   Bloc.observer = SimpleBlocObserver();
 
   runApp(Phoenix(child: const MyApp()));
-  predictIssue();
+  //predictIssue();
 }
 
 class MyApp extends StatelessWidget {
@@ -87,45 +87,45 @@ class MyApp extends StatelessWidget {
     });
   }
 }
-Future<void> predictIssue() async {
-  String url = 'https://ai.seere.live/predict';
-  Map<String, dynamic> data = {
-    "CAR_YEAR": 2015,
-    "ENGINE_POWER": 1.6,
-    "ENGINE_COOLANT_TEMP": 90.0,
-    "ENGINE_LOAD": 0.75,
-    "ENGINE_RPM": 3000,
-    "AIR_INTAKE_TEMP": 30.0,
-    "SPEED": 60,
-    "SHORT TERM FUEL TRIM BANK 1": 0.2,
-    "THROTTLE_POS": 0.8,
-    "TIMING_ADVANCE": 10
-  };
+// Future<void> predictIssue() async {
+//   String url = 'https://ai.seere.live/predict';
+//   Map<String, dynamic> data = {
+//     "CAR_YEAR": 2015,
+//     "ENGINE_POWER": 1.6,
+//     "ENGINE_COOLANT_TEMP": 90.0,
+//     "ENGINE_LOAD": 0.75,
+//     "ENGINE_RPM": 3000,
+//     "AIR_INTAKE_TEMP": 30.0,
+//     "SPEED": 60,
+//     "SHORT TERM FUEL TRIM BANK 1": 0.2,
+//     "THROTTLE_POS": 0.8,
+//     "TIMING_ADVANCE": 10
+//   };
 
-  try {
-    print('Sending request to $url with data: $data');
-    final response = await http.post(
-      Uri.parse(url),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode(data),  // Use the json.encode method from dart:convert
-    );
+//   try {
+//     print('Sending request to $url with data: $data');
+//     final response = await http.post(
+//       Uri.parse(url),
+//       headers: {'Content-Type': 'application/json'},
+//       body: json.encode(data),  // Use the json.encode method from dart:convert
+//     );
 
-    if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);  // Use the json.decode method from dart:convert
-      print('Response received: $responseData');
-      var prediction = responseData['code'];
-      var severity = responseData['severity'];
+//     if (response.statusCode == 200) {
+//       final responseData = json.decode(response.body);  // Use the json.decode method from dart:convert
+//       print('Response received: $responseData');
+//       var prediction = responseData['code'];
+//       var severity = responseData['severity'];
 
-      print('Prediction: $prediction, Severity: $severity');
+//       print('Prediction: $prediction, Severity: $severity');
 
-      if (severity == 'High') {
-        showNotification('Issue Detected', 'An issue with high severity has been detected with your car.');
-      }
-    } else {
-      print('Failed to get prediction: ${response.statusCode}');
-      print('Response data: ${response.body}');
-    }
-  } catch (e) {
-    print('Error: $e');
-  }
-}
+//       if (severity == 'High') {
+//         showNotification('Issue Detected', 'An issue with high severity has been detected with your car.');
+//       }
+//     } else {
+//       print('Failed to get prediction: ${response.statusCode}');
+//       print('Response data: ${response.body}');
+//     }
+//   } catch (e) {
+//     print('Error: $e');
+//   }
+// }

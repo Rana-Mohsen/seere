@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:seere/constants.dart';
 import 'package:seere/utils/login_helper.dart';
-import 'package:seere/views/car_management_view.dart';
+import 'package:seere/views/predicted_codes.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:sizer/sizer.dart';
 
@@ -15,13 +17,14 @@ class MyInfoView extends StatefulWidget {
 }
 
 class _MyInfoViewState extends State<MyInfoView> {
+  bool status = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         clipBehavior: Clip.none,
         children: [
-          SizedBox(
+          Container(
             height: 25.h,
             width: double.maxFinite,
             child: SvgPicture.asset(
@@ -41,7 +44,13 @@ class _MyInfoViewState extends State<MyInfoView> {
                   height: 13.h,
                   width: 22.w,
                   decoration: const BoxDecoration(
-                    color: Colors.white,
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xffcfdcfd),
+                        Color(0xff5985f9),
+                      ],
+                    ),
+                    //  color: Colors.white,
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(
@@ -53,6 +62,12 @@ class _MyInfoViewState extends State<MyInfoView> {
                 Container(
                   height: 15.h,
                   decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xffd7e2ff),
+                        Color(0xffffffff),
+                      ],
+                    ),
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
@@ -87,26 +102,55 @@ class _MyInfoViewState extends State<MyInfoView> {
                     ),
                     child: Column(
                       children: [
-                        customTile(
-                          icon1: Icons.car_crash_outlined,
-                          title: "General settings",
-                          icon2: Icons.arrow_forward_ios_sharp,
-                          nav: const CarManagement(),
-                          context: context,
+                        Container(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "assets/icons/forecast.png",
+                                height: 4.h,
+                              ),
+                              SizedBox(width: 4.5.w),
+                              Text(
+                                "Start prediction",
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                ),
+                              ),
+                              const Spacer(
+                                flex: 1,
+                              ),
+                              FlutterSwitch(
+                                activeColor: kPrimaryBlueColor,
+                                width: 65,
+                                height: 30,
+                                valueFontSize: 15.0,
+                                toggleSize: 18.0,
+                                value: status,
+                                borderRadius: 15.0,
+                                padding: 4.0,
+                                showOnOff: true,
+                                onToggle: (val) {
+                                  setState(() {
+                                    status = val;
+                                  
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
                         ),
-                        customTile(
-                          icon1: Icons.car_crash_outlined,
-                          title: "Car Management",
-                          icon2: Icons.arrow_forward_ios_sharp,
-                          nav: const CarManagement(),
-                          context: context,
-                        ),
-                        customTile(
-                          icon1: Icons.car_crash_outlined,
-                          title: "About us",
-                          icon2: Icons.arrow_forward_ios_sharp,
-                          nav: const CarManagement(),
-                          context: context,
+                        ListTile(
+                          leading: Icon(Icons.info_outline_rounded, size: 8.w),
+                          title: const Text("About us"),
+                          trailing: GestureDetector(
+                            // onTap: () => Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             const CarManagement())),
+                            child: const Icon(Icons.arrow_forward_ios_sharp),
+                          ),
                         ),
                       ],
                     )),
@@ -175,16 +219,16 @@ class _MyInfoViewState extends State<MyInfoView> {
     );
   }
 
-  Widget customTile(
-      {required icon1, required title, required icon2, nav, context}) {
-    return ListTile(
-      leading: Icon(icon1),
-      title: Text(title),
-      trailing: GestureDetector(
-        onTap: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => nav)),
-        child: Icon(icon2),
-      ),
-    );
-  }
+  // Widget customTile(
+  //     {required icon1, required title, required icon2, nav, context}) {
+  //   return ListTile(
+  //     leading: Image.asset(icon1),
+  //     title: Text(title),
+  //     trailing: GestureDetector(
+  //       onTap: () => Navigator.push(
+  //           context, MaterialPageRoute(builder: (context) => nav)),
+  //       child: Icon(icon2),
+  //     ),
+  //   );
+  // }
 }

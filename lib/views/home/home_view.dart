@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/utils/initialize_car_data.dart';
 import 'package:seere/views/connect_device/cubit/bluetooth_cubit.dart';
+import 'package:seere/views/notification/localNotification';
 import 'package:seere/views/trouble_scan/trouble_scan.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:seere/widgets/home_container.dart';
@@ -11,6 +13,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../connect_device/connect_device_view.dart';
 import '../live_data_view.dart';
 import 'cubit/data_cubit.dart';
+import 'package:http/http.dart' as http;
+
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -84,7 +88,7 @@ class _HomeViewState extends State<HomeView> {
                           flex: 2,
                         ),
                         customIconButtom(
-                          onPressed: () {},
+                          onPressed: () {predictIssue();},
                           image: "assets/icons/in_depth.svg",
                           text: "In-depth check",
                         ),
@@ -237,5 +241,47 @@ class _HomeViewState extends State<HomeView> {
         ],
       )),
     );
+  }
+}
+Future<void> predictIssue() async {
+  String url = 'https://ai.seere.live/predict';
+  Map<String, dynamic> data = {
+    "CAR_YEAR": 2015,
+    "ENGINE_POWER": 1.6,
+    "ENGINE_COOLANT_TEMP": 90.0,
+    "ENGINE_LOAD": 0.75,
+    "ENGINE_RPM": 3000,
+    "AIR_INTAKE_TEMP": 30.0,
+    "SPEED": 60,
+    "SHORT TERM FUEL TRIM BANK 1": 0.2,
+    "THROTTLE_POS": 0.8,
+    "TIMING_ADVANCE": 10
+  };
+
+  try {
+    print('Sending request to $url with data: $data');
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(data),  // Use the json.encode method from dart:convert
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);  // Use the json.decode method from dart:convert
+      print('Response received: $responseData');
+      var prediction = responseData['code'];
+      var severity = responseData['severity'];
+
+      print('Prediction: $prediction, Severity: $severity');
+
+      if (severity == 'High') {
+        showNotification('Issue Detected', 'An issue with high severity has been detected with your car.');
+      }
+    } else {
+      print('Failed to get prediction: ${response.statusCode}');
+      print('Response data: ${response.body}');
+    }
+  } catch (e) {
+    print('Error: $e');
   }
 }
