@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -9,6 +10,7 @@ import 'package:seere/models/prediction_model.dart';
 import 'package:seere/services/prediction_sevice.dart';
 import 'package:seere/utils/initialize_car_data.dart';
 import 'package:seere/views/home/cubit/data_cubit.dart';
+import 'package:seere/views/my_info_view.dart';
 import 'package:seere/views/predicted_codes/predicted_codes.dart';
 
 import '../../../services/bluetooth/obd2_plugin.dart';
@@ -25,6 +27,7 @@ class BluetoothCubit extends Cubit<BluetoothState> {
   bool send = true;
   bool predict = false;
   int count = 0;
+   List<String> codes = [];
 
   bluetoothButton() async {
     if (!buttonOn) {
@@ -50,7 +53,8 @@ class BluetoothCubit extends Cubit<BluetoothState> {
     }
   }
 
-  connectToDevice(int index, DataCubit dataCubit,) async {
+  connectToDevice(int index, DataCubit dataCubit,
+      PredictCodesCubit predictCodesCubit) async {
     debugPrint("##########${obd2.connection?.isConnected.toString()}#########");
     await obd2.getConnection(devices[index], (connection) async {
       device = devices[index];
@@ -58,11 +62,11 @@ class BluetoothCubit extends Cubit<BluetoothState> {
       await obd2.setOnDataReceived((command, response, requestCode) {
         debugPrint("==>> $command");
         if (command == "DTC") {
-          //dtcCodes = json.decode(response);
-          dtcCodes = ["P0111", "P0327"];
+          dtcCodes = json.decode(response);
+          //dtcCodes = ["P0111", "P0327"];
         }
         if (command == "PARAMETER") {
-          updateData(response, dataCubit);
+          updateData(response, dataCubit, predictCodesCubit);
         }
       });
       sendParameterRequiest(paramJSON);
@@ -92,7 +96,8 @@ class BluetoothCubit extends Cubit<BluetoothState> {
     }
   }
 
-  updateData(response, DataCubit dataCubit) async {
+  updateData(response, DataCubit dataCubit,
+      PredictCodesCubit predictCodesCubit) async {
     List<dynamic> responseData = json.decode(response);
     String resp;
     for (var data in responseData) {
@@ -128,9 +133,20 @@ class BluetoothCubit extends Cubit<BluetoothState> {
           timing_advance:
               double.parse(requistedData[mapDataToApi('timing_advance')]),
         );
-        predictedCodesList.add(predictionRsp);
-       // predictCodesCubit.addCode();
-        debugPrint(predictionRsp.toString());
+        predictedCodesList = predictionRsp;
+       
+        // debugPrint(const ListEquality()
+        //     .equals([codes], predictedCodesList!.code).toString());
+        bool comp =
+            const ListEquality().equals(codes, predictedCodesList!.code);
+        if (predict &&
+            predictedCodesList!.code.isNotEmpty == true &&
+            comp == false) {
+          predictIssue();
+          codes.addAll(predictedCodesList!.code);
+        }
+        // predictCodesCubit.pageState();
+        //debugPrint(predictionRsp.toString());
         count = 0;
       } else {
         count += 1;

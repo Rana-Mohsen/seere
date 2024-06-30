@@ -5,33 +5,37 @@ import 'package:seere/constants.dart';
 import 'package:seere/views/connect_device/cubit/bluetooth_cubit.dart';
 import 'package:seere/views/connect_device/cubit/connect_device_cubit.dart';
 import 'package:seere/views/notification/localNotification';
+import 'package:seere/views/predicted_codes/cubit/predict_codes_cubit.dart';
 import 'package:seere/views/splash_screen.dart';
 import 'package:seere/views/trouble_scan/cubit/trouble_scan_cubit.dart';
 import 'package:sizer/sizer.dart';
 import 'simple_bloc_observer.dart';
 import 'views/home/cubit/data_cubit.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeNotifications();
 
   //ByteData data = await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
   //SecurityContext.defaultContext.setTrustedCertificatesBytes(data.buffer.asUint8List());
   //HttpOverrides.global = MyHttpOverrides() as HttpOverrides? ;
 
-  initializeNotifications();
+  // initializeNotifications();
   Bloc.observer = SimpleBlocObserver();
 
-  runApp(Phoenix(child: MyApp()));
+  runApp(Phoenix(child: MyApp(navigatorKey: navigatorKey)));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+    final GlobalKey<NavigatorState> navigatorKey;
+
+  const MyApp({super.key,required this.navigatorKey});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+  
     //getlogged();
     return Sizer(builder: (context, orientation, deviceType) {
       return MultiBlocProvider(
@@ -40,8 +44,10 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: ((context) => DataCubit())),
           BlocProvider(create: ((context) => BluetoothCubit())),
           BlocProvider(create: ((context) => TroubleScanCubit())),
+          BlocProvider(create: ((context) => PredictCodesCubit())),
         ],
         child: MaterialApp(
+          navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
             title: 'SeerE',
             theme: ThemeData(

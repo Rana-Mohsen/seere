@@ -49,7 +49,6 @@ dependencies:
   flutter_onboarding_slider: ^1.0.11
   another_flutter_splash_screen: ^1.2.0
   flutter_login: ^5.0.0
-  animations: ^2.0.11
   flutter_phoenix: ^1.1.1
   flutter_svg: ^2.0.10+1
   vector_graphics_compiler: ^1.1.11+1
@@ -60,6 +59,8 @@ dependencies:
     path: ./fancy_nav
   smooth_page_indicator: ^1.1.0
   flutter_switch: ^0.3.2
+  collection: ^1.18.0
+  rxdart: ^0.28.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

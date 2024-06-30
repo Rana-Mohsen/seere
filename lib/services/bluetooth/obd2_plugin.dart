@@ -170,9 +170,9 @@ class Obd2Plugin {
         throw Exception(
             "Sorry this happened. But I can not connect to the device. But I guess the device is not nearby or you have not disconnected before. Finally, if you wants to enter into a new relationship, you must end his previous relationship");
       }
-    } on PlatformException {
+    } catch (e) {
       disconnect();
-      debugPrint("connection problem");
+      debugPrint("connection problem $e");
     }
   }
 

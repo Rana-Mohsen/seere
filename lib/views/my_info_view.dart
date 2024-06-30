@@ -6,14 +6,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:seere/constants.dart';
 import 'package:seere/utils/login_helper.dart';
-import 'package:seere/views/connect_device/cubit/bluetooth_cubit.dart';
-import 'package:seere/views/predicted_codes/predicted_codes.dart';
 import 'package:seere/views/notification/localNotification';
-//import 'package:seere/views/predicted_codes.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:sizer/sizer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'connect_device/cubit/bluetooth_cubit.dart';
 
 class MyInfoView extends StatefulWidget {
   
@@ -141,8 +140,16 @@ class _MyInfoViewState extends State<MyInfoView> {
                                 showOnOff: true,
                                 onToggle: (val) {
                                   setState(() {
-                                    predictIssue();
+                                    //predictIssue();
                                     status = val;
+                                       status = val;
+                                    if (status) {
+                                      BlocProvider.of<BluetoothCubit>(context)
+                                          .predict = true;
+                                    } else {
+                                      BlocProvider.of<BluetoothCubit>(context)
+                                          .predict = false;
+                                    }
                                   
                                   });
                                 },

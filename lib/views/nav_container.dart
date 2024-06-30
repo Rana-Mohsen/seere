@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:seere/views/app_center_view.dart';
 import 'package:seere/views/home/home_view.dart';
 import 'package:seere/views/my_info_view.dart';
-import 'package:animations/animations.dart';
 import '../nav_bar_icons.dart';
 
 class NavContainer extends StatefulWidget {
@@ -20,16 +19,7 @@ class _NavContainerState extends State<NavContainer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageTransitionSwitcher(
-        transitionBuilder: (child, primaryAnimation, secondaryAnimation) =>
-            SharedAxisTransition(
-          animation: primaryAnimation,
-          secondaryAnimation: secondaryAnimation,
-          transitionType: SharedAxisTransitionType.scaled,
-          child: child,
-        ),
-        child: pages[currentIndex],
-      ),
+      body: pages[currentIndex],
       bottomNavigationBar: FancyBottomNavigation(
           tabs: [
             TabData(iconData: MyFlutterApp.home, title: "Home"),

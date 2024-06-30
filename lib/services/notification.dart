@@ -1,20 +1,21 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:seere/utils/initialize_car_data.dart';
 import 'package:seere/views/notification/localNotification';
 
 Future<void> predictNotification() async {
   String url = 'https://ai.seere.live/predict';
   Map<String, dynamic> data = {
-    "engine_power": 1.60,
-    "engine_coolant_temp": 66.00,
-    "engine_load": 0.00,
-    "engine_rpm": 0.00,
-    "air_intake_temp": -10.00,
-    "speed": 0.00,
-    "short_term_fuel_trim": 0.00,
-    "throttle_pos": 13.00,
-    "timing_advance": 52.00
+    "engine_power": requistData["enginePower"],
+    "engine_coolant_temp": requistData["engineCoolantTemp"],
+    "engine_load": requistData["engineLoad"],
+    "engine_rpm": requistData["engineRPM"],
+    "air_intake_temp": requistData["airintakeTemp"],
+    "speed": requistData["speed"],
+    "short_term_fuel_trim": requistData["shortTermFuelBank1"],
+    "throttle_pos": requistData["throttlePosition"],
+    "timing_advance": requistData["timingAdvance"]
   };
 
   try {

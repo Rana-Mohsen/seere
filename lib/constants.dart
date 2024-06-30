@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const kPrimaryBackGroundColor = Color(0xFFEDF2FF);
 const kPrimaryBlueColor = Color(0xff2F66F6);
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 BoxDecoration boxDecoration({double radius = 8}) {
   return BoxDecoration(

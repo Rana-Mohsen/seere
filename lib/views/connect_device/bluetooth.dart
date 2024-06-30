@@ -110,9 +110,9 @@ Future<void> showBluetoothList(
                   child: TextButton(
                     onPressed: () async {
                       DataCubit dataCubit = BlocProvider.of<DataCubit>(context);
-                    //  PredictCodesCubit predictCodesCubit = BlocProvider.of<PredictCodesCubit>(context);
+                     PredictCodesCubit predictCodesCubit = BlocProvider.of<PredictCodesCubit>(context);
                       await BlocProvider.of<BluetoothCubit>(context)
-                          .connectToDevice(index, dataCubit);
+                          .connectToDevice(index, dataCubit, predictCodesCubit);
                       Navigator.pop(builder);
                     },
                     child: Center(

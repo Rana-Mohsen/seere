@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seere/constants.dart';
+import 'package:seere/views/predicted_codes/cubit/predict_codes_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 class AppCenterContainer extends StatelessWidget {
@@ -14,7 +15,7 @@ class AppCenterContainer extends StatelessWidget {
       required this.width,
       this.isSvg = true,
       this.isTap = true,
-       this.rout});
+      this.rout});
   final String image;
   final String lable;
   final int imgSize;
@@ -28,6 +29,9 @@ class AppCenterContainer extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (isTap) {
+          if (lable == "Predicted issues") {
+            BlocProvider.of<PredictCodesCubit>(context).pageState();
+          }
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => rout!));
         }

@@ -4,4 +4,5 @@ part of 'predict_codes_cubit.dart';
 abstract class PredictCodesState {}
 
 class PredictCodesInitial extends PredictCodesState {}
-class AddPredictCodesInitial extends PredictCodesState {}
+class ShowPredictedCodes extends PredictCodesState {}
+class NoPrediction extends PredictCodesState {}

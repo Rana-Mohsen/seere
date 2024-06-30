@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seere/utils/initialize_car_data.dart';
-import 'package:seere/views/connect_device/cubit/bluetooth_cubit.dart';
+import 'package:seere/views/notification/localNotification';
+import 'package:seere/views/predicted_codes/predicted_codes.dart';
 import 'package:seere/views/trouble_scan/trouble_scan.dart';
 import 'package:seere/widgets/custom_button.dart';
 import 'package:seere/widgets/home_container.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../connect_device/connect_device_view.dart';
 import '../live_data_view.dart';
 import 'cubit/data_cubit.dart';
+import 'package:rxdart/rxdart.dart';
 
 
 class HomeView extends StatefulWidget {
@@ -21,8 +23,10 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(

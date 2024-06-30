@@ -15,19 +15,19 @@ Map<String, dynamic> requistData = {
   "throttlePosition": "01 11",
   "timingAdvance": "01 0E"
 };
-List<PredictionModel> predictedCodesList = [];
-List<dynamic> dtcCodes = ["P0111", "P0327"];
+PredictionModel? predictedCodesList;
+List<dynamic> dtcCodes = [];
 
 Map<String, dynamic> requistedData = {
   "enginePower": "0",
-  "engineCoolantTemp": "0",
+  "engineCoolantTemp": "00",
   "engineLoad": "0",
   "engineRPM": "0",
   "airintakeTemp": "0",
   "speed": "0",
   "shortTermFuelBank1": "0",
-  "throttlePosition": "0",
-  "timingAdvance": "0",
+  "throttlePosition": "00",
+  "timingAdvance": "00",
 };
 
 String paramJSON = '''

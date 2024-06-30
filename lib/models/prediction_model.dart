@@ -40,8 +40,8 @@ class Data {
   final String description;
   final String dtcCode;
   final String longDescription;
-  final List<String> reason;
-  final List<String> repair;
+  final String reason;
+  final String repair;
 
   Data({
     required this.criticalLevel,
@@ -58,8 +58,8 @@ class Data {
       description: json['description'],
       dtcCode: json['dtc_code'],
       longDescription: json['long_description'],
-      reason: List<String>.from(json['reason']),
-      repair: List<String>.from(json['repair']),
+      reason: List<String>.from(json['reason']).join(', '),
+      repair: List<String>.from(json['repair']).join(', '),
     );
   }
   @override

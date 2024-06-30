@@ -1,21 +1,37 @@
+import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:seere/constants.dart';
+import 'package:seere/views/predicted_codes/predicted_codes.dart';
+
 
 late final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+BehaviorSubject<String> selectNotificationSubject = BehaviorSubject<String>();
 
-Future<void> initializeNotifications() async {
+Future<void> initializeNotifications() async{
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   var androidPlugin = flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
     AndroidFlutterLocalNotificationsPlugin>();
-
-  // Use the null-aware operator to safely call requestNotificationsPermission
   androidPlugin?.requestNotificationsPermission();
 
-  const AndroidInitializationSettings initializationSettingsAndroid =
+   AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
-  const InitializationSettings initializationSettings =
+   InitializationSettings initializationSettings =
       InitializationSettings(android: initializationSettingsAndroid);
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  // Handle notification tap callback
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onDidReceiveNotificationResponse: (NotificationResponse response) async{
+      if (response.payload != null && response.payload!.isNotEmpty) {
+        selectNotificationSubject.add(response.payload!);
+       navigatorKey.currentState?.push(
+          MaterialPageRoute(builder: (context) => const PredictedCodes()),
+    );
+      }
+    },
+  );
 }
 
 Future<void> showNotification(String title, String body) async {
