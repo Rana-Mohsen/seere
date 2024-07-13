@@ -20,14 +20,14 @@ List<dynamic> dtcCodes = [];
 
 Map<String, dynamic> requistedData = {
   "enginePower": "0",
-  "engineCoolantTemp": "00",
+  "engineCoolantTemp": "0",
   "engineLoad": "0",
   "engineRPM": "0",
   "airintakeTemp": "0",
   "speed": "0",
   "shortTermFuelBank1": "0",
-  "throttlePosition": "00",
-  "timingAdvance": "00",
+  "throttlePosition": "0",
+  "timingAdvance": "0",
 };
 
 String paramJSON = '''

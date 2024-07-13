@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seere/models/dtc_code_model.dart';
-import 'package:seere/models/prediction_model.dart';
 import 'package:seere/utils/initialize_car_data.dart';
 import 'package:seere/widgets/dtc_card.dart';
 

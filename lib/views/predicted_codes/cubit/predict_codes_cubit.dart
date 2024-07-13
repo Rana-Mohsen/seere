@@ -9,7 +9,7 @@ class PredictCodesCubit extends Cubit<PredictCodesState> {
   PredictCodesCubit() : super(PredictCodesInitial());
   pageState() {
     //debugPrint((predictedCodesList != null).toString());
-    if (predictedCodesList != null) {
+    if (predictedCodesList != null && predictedCodesList!.data.isNotEmpty) {
       emit(ShowPredictedCodes());
     } else {
       emit(NoPrediction());

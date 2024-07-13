@@ -17,7 +17,12 @@ class PredictedCodes extends StatefulWidget {
 }
 
 class _PredictedCodesState extends State<PredictedCodes> {
- 
+  @override
+  void initState() {
+    BlocProvider.of<PredictCodesCubit>(context).pageState();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

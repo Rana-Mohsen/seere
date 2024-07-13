@@ -115,7 +115,7 @@ class BluetoothCubit extends Cubit<BluetoothState> {
     }
     if (predict) {
       debugPrint("=--=-=---=-=-=-=-=-$count");
-      if (count == 2) {
+      if (count == 6) {
         PredictionModel predictionRsp = await PredictService().predict(
           engine_power:
               double.parse(requistedData[mapDataToApi('engine_power')]),
@@ -134,19 +134,20 @@ class BluetoothCubit extends Cubit<BluetoothState> {
               double.parse(requistedData[mapDataToApi('timing_advance')]),
         );
         predictedCodesList = predictionRsp;
-       
+               debugPrint(predictionRsp.toString());
+        debugPrint(predictionRsp.toString());
+
         // debugPrint(const ListEquality()
         //     .equals([codes], predictedCodesList!.code).toString());
         bool comp =
             const ListEquality().equals(codes, predictedCodesList!.code);
         if (predict &&
-            predictedCodesList!.code.isNotEmpty == true &&
+            predictedCodesList!.data.isNotEmpty == true &&
             comp == false) {
           predictIssue();
           codes.addAll(predictedCodesList!.code);
         }
         // predictCodesCubit.pageState();
-        //debugPrint(predictionRsp.toString());
         count = 0;
       } else {
         count += 1;
