@@ -1,3 +1,3 @@
 # seere
 
-Graduation project for fourth year Mansoura university students
+Graduation project for computer science Mansoura university students
